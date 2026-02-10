@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 type Option = { label: string; value: string };
 
@@ -13,7 +14,25 @@ const formatEUR = (n: number) =>
     maximumFractionDigits: 0,
   }).format(n);
 
+function parseCSV(v: string | null) {
+  if (!v) return [];
+  return v
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
+}
+
+function toIntOrNull(v: string | null) {
+  if (!v) return null;
+  const n = Number(v);
+  return Number.isFinite(n) ? n : null;
+}
+
 export default function PropertySearch() {
+  const router = useRouter();
+  const pathname = usePathname();
+  const sp = useSearchParams();
+
   const regions: Option[] = useMemo(
     () => [
       { label: "All", value: "all" },
@@ -89,6 +108,43 @@ export default function PropertySearch() {
   const [draftTypes, setDraftTypes] = useState<string[]>([]);
   const [draftAdvantages, setDraftAdvantages] = useState<string[]>([]);
 
+  // ✅ Hydrate state from URL (works on /buy and also if you ever add query on home)
+  useEffect(() => {
+    const qRegion = sp.get("region") ?? "all";
+    const qLocation = sp.get("location") ?? "";
+    const qTypes = parseCSV(sp.get("type"));
+    const qAdv = parseCSV(sp.get("adv"));
+    const qBeds = sp.get("beds") ?? "all";
+
+    const qMin = sp.get("min") ?? "";
+    const qMax = sp.get("max") ?? "";
+
+    setRegion(qRegion);
+    setLocation(qLocation);
+    setSelectedTypes(qTypes);
+    setSelectedAdvantages(qAdv);
+    setBedrooms(qBeds);
+
+    setMinPrice(qMin);
+    setMaxPrice(qMax);
+
+    // slider mirrors max if present, otherwise 0
+    const maxN = toIntOrNull(sp.get("max"));
+    setPriceSlider(maxN ? Math.min(Math.max(maxN, 0), MAX_PRICE) : 0);
+
+    // open advanced if any advanced filters exist
+    const shouldOpenAdvanced =
+      qBeds !== "all" || qMin !== "" || qMax !== "" || qAdv.length > 0;
+    setAdvancedOpen(shouldOpenAdvanced);
+
+    // keep drafts synced with saved state if dropdown is closed
+    if (!typeOpen) {
+      setDraftTypes(qTypes);
+      setDraftAdvantages(qAdv);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sp]);
+
   const propertyTypeDisplay =
     selectedTypes.length === 0
       ? "Select"
@@ -102,7 +158,6 @@ export default function PropertySearch() {
       if (!typeOpen) return;
       if (typeRef.current && !typeRef.current.contains(e.target as Node)) {
         setTypeOpen(false);
-        // revert draft to saved if they click away
         setDraftTypes(selectedTypes);
         setDraftAdvantages(selectedAdvantages);
       }
@@ -141,6 +196,7 @@ export default function PropertySearch() {
   };
 
   const resetAll = () => {
+    // Reset UI
     setSelectedTypes([]);
     setRegion("all");
     setLocation("");
@@ -153,21 +209,46 @@ export default function PropertySearch() {
     setDraftTypes([]);
     setDraftAdvantages([]);
     setTypeOpen(false);
+
+    // Reset URL on /buy, or just navigate to /buy if elsewhere
+    router.push("/buy");
+  };
+
+  // ✅ Slider controls MAX price filter (convenient)
+  const onSliderChange = (value: number) => {
+    setPriceSlider(value);
+    setMaxPrice(String(value));
+    if (!advancedOpen) setAdvancedOpen(true);
   };
 
   const onSearch = () => {
-    // Later: route to /listings?filters=...
-    console.log({
-      selectedTypes,
-      region,
-      location,
-      advancedOpen,
-      bedrooms,
-      minPrice,
-      maxPrice,
-      priceSlider,
-      selectedAdvantages,
-    });
+    const params = new URLSearchParams();
+
+    if (region && region !== "all") params.set("region", region);
+
+    const loc = location.trim();
+    if (loc) params.set("location", loc);
+
+    if (selectedTypes.length > 0) params.set("type", selectedTypes.join(","));
+
+    if (selectedAdvantages.length > 0) params.set("adv", selectedAdvantages.join(","));
+
+    if (bedrooms !== "all") params.set("beds", bedrooms);
+
+    const minClean = minPrice.trim();
+    const maxClean = maxPrice.trim();
+
+    if (minClean && Number(minClean) > 0) params.set("min", String(Number(minClean)));
+    if (maxClean && Number(maxClean) > 0) params.set("max", String(Number(maxClean)));
+
+    // When searching, always go to page 1
+    params.set("page", "1");
+
+    const url = `/buy?${params.toString()}`;
+
+    // On Home: navigate to /buy with filters
+    // On Buy: updates query → server page rerenders with filtered listings
+    router.push(url);
   };
 
   return (
@@ -236,19 +317,11 @@ export default function PropertySearch() {
           <div className="field">
             <div className="label">
               Region <span className="muted">–</span>{" "}
-              <button
-                type="button"
-                className="linklike"
-                onClick={() => console.log("See map")}
-              >
+              <button type="button" className="linklike" onClick={() => console.log("See map")}>
                 See map
               </button>
             </div>
-            <select
-              className="control"
-              value={region}
-              onChange={(e) => setRegion(e.target.value)}
-            >
+            <select className="control" value={region} onChange={(e) => setRegion(e.target.value)}>
               {regions.map((r) => (
                 <option key={r.value} value={r.value}>
                   {r.label}
@@ -310,7 +383,7 @@ export default function PropertySearch() {
                     max={MAX_PRICE}
                     step={50_000}
                     value={priceSlider}
-                    onChange={(e) => setPriceSlider(Number(e.target.value))}
+                    onChange={(e) => onSliderChange(Number(e.target.value))}
                     className="slider"
                   />
                   <div className="slider-value">{formatEUR(priceSlider)}</div>
@@ -321,7 +394,10 @@ export default function PropertySearch() {
                     <span className="euro">€</span>
                     <input
                       value={minPrice}
-                      onChange={(e) => setMinPrice(e.target.value)}
+                      onChange={(e) => {
+                        setMinPrice(e.target.value);
+                        if (!advancedOpen) setAdvancedOpen(true);
+                      }}
                       placeholder="Enter min"
                       inputMode="numeric"
                     />
@@ -330,7 +406,11 @@ export default function PropertySearch() {
                     <span className="euro">€</span>
                     <input
                       value={maxPrice}
-                      onChange={(e) => setMaxPrice(e.target.value)}
+                      onChange={(e) => {
+                        setMaxPrice(e.target.value);
+                        const n = Number(e.target.value);
+                        if (Number.isFinite(n)) setPriceSlider(Math.min(Math.max(n, 0), MAX_PRICE));
+                      }}
                       placeholder="Enter max"
                       inputMode="numeric"
                     />
@@ -353,6 +433,11 @@ export default function PropertySearch() {
                   <option value="4">4+</option>
                   <option value="5">5+</option>
                 </select>
+
+                {/* Optional reset for convenience */}
+                <button type="button" className="reset" onClick={resetAll}>
+                  Reset all filters
+                </button>
               </div>
 
               {/* Advantages */}
@@ -379,6 +464,7 @@ export default function PropertySearch() {
               </div>
             </div>
 
+            {/* If you prefer reset at bottom like before, you can remove the reset button above and keep this one */}
             <button type="button" className="reset" onClick={resetAll}>
               Reset all filters
             </button>
@@ -388,4 +474,3 @@ export default function PropertySearch() {
     </section>
   );
 }
-

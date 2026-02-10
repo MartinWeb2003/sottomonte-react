@@ -2,10 +2,10 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
-import type { Property } from "../types/property";
+import type { Listing } from "../types/listing";
 
 type Props = {
-  property: Property;
+  property: Listing;
 };
 
 export default function PropertyCard({ property }: Props) {
@@ -32,7 +32,7 @@ export default function PropertyCard({ property }: Props) {
 
         <div className="pcard-tag">
           <span className="pcard-dot" aria-hidden="true" />
-          {property.status}
+          For Sale
         </div>
 
         <button
@@ -49,7 +49,7 @@ export default function PropertyCard({ property }: Props) {
         <div className="pcard-loc">
           <span className="pcard-city">{property.city}</span>
           <span className="pcard-sep">–</span>
-          <span className="pcard-region">{property.region}</span>
+          <span className="pcard-region">{property.regionDisplay}</span>
         </div>
 
         <div className="pcard-title">{property.title}</div>
@@ -65,7 +65,7 @@ export default function PropertyCard({ property }: Props) {
   );
 }
 
-/* ✨ Perfectly symmetrical heart (Lucide-style) */
+/* ✨ Perfectly symmetrical heart */
 function HeartIcon({ filled }: { filled: boolean }) {
   return (
     <svg

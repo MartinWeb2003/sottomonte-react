@@ -1403,3 +1403,272 @@ body {
   transform: translateY(-2px);
   filter: brightness(1.06);
 }
+
+/* ================= FOOTER ================= */
+
+.footer {
+  background: #0b0f1a;
+  color: #ffffff;
+  padding: 80px 0 0;
+}
+
+.footer-inner {
+  max-width: 1400px;
+  width: calc(100% - 80px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 50px;
+}
+
+/* Brand */
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.footer-brand-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand-top {
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: 1px;
+}
+
+.footer-brand-bottom {
+  font-size: 12px;
+  letter-spacing: 2px;
+  opacity: 0.8;
+}
+
+.footer-desc {
+  max-width: 360px;
+  line-height: 1.7;
+  opacity: 0.85;
+  font-size: 15px;
+}
+
+/* Columns */
+.footer-heading {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  opacity: 0.9;
+}
+
+.footer-links,
+.footer-contact {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li,
+.footer-contact li {
+  margin-bottom: 10px;
+  font-size: 15px;
+  opacity: 0.85;
+}
+
+.footer-links a {
+  color: white;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.footer-links a:hover {
+  opacity: 0.6;
+}
+
+/* Bottom bar */
+.footer-bottom {
+  text-align: center;
+  padding: 26px 0;
+  margin-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 14px;
+  opacity: 0.7;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+
+  .footer {
+    padding-top: 60px;
+  }
+}
+
+/* ================= BUY PAGE ================= */
+
+.buy-hero {
+  background: #fff;
+  padding: 110px 0 70px;
+}
+
+.buy-hero-inner {
+  max-width: 1400px;
+  width: calc(100% - 80px);
+  margin: 0 auto;
+}
+
+.buy-hero-title {
+  margin: 0 0 18px;
+  font-size: clamp(44px, 4.2vw, 74px);
+  font-weight: 500;
+  line-height: 1.05;
+  color: #0b0f1a;
+}
+
+.buy-hero-text {
+  max-width: 980px;
+  margin: 0 0 26px;
+  font-size: 18px;
+  line-height: 1.75;
+  color: #1f2937;
+}
+
+.buy-hero-btn {
+  border: none;
+  background: #111827;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 800;
+  padding: 14px 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.buy-hero-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.05);
+}
+
+/* Grid section */
+.buy-grid-section {
+  background: #fff;
+  padding: 30px 0 90px;
+}
+
+.buy-grid-inner {
+  max-width: 1400px;
+  width: calc(100% - 80px);
+  margin: 0 auto;
+}
+
+.buy-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .buy-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 700px) {
+  .buy-hero-inner,
+  .buy-grid-inner {
+    width: calc(100% - 28px);
+  }
+
+  .buy-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ================= PAGINATION ================= */
+
+.pager {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.pager-top {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pager-arrow {
+  width: 44px;
+  height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #111827;
+  border: 1px solid #e5e7eb;
+  background: #fff;
+  font-size: 26px;
+  line-height: 1;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.pager-arrow:hover {
+  transform: translateY(-1px);
+  filter: brightness(0.98);
+}
+
+.pager-arrow.is-disabled {
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.pager-pages {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pager-chunk {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pager-dots {
+  opacity: 0.6;
+  font-size: 18px;
+}
+
+.pager-page {
+  min-width: 44px;
+  height: 44px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  color: #111827;
+  border: 1px solid transparent;
+  background: #fff;
+  font-size: 18px;
+}
+
+.pager-page.is-active {
+  border-color: #e5e7eb;
+  background: #fff;
+  font-weight: 800;
+}
+
+.pager-count {
+  font-size: 16px;
+  color: #111827;
+  opacity: 0.8;
+}
