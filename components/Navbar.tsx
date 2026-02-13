@@ -91,6 +91,7 @@ export default function Navbar() {
 
         {/* CENTER links (desktop) */}
         <div className="navbar-links">
+          <Link href="/">Home</Link>
           <Link href="/buy">Buy</Link>
           <Link href="/sell">Sell</Link>
           <Link href="/about">About us</Link>

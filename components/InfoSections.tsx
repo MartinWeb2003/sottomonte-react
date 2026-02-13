@@ -1,6 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 
 export default function InfoSections() {
   const [localQuery, setLocalQuery] = useState("");
@@ -15,18 +18,13 @@ export default function InfoSections() {
           role="presentation"
         />
         <div className="info-content">
-          <h2 className="info-title">Need a home loan? Get pre-approved</h2>
+          <h2 className="info-title">Need property info? Get started</h2>
           <p className="info-text">
-            Find a lender who can offer competitive mortgage rates and help you
-            with pre-approval.
+            Quality information provided to you, so you can make the smart choice.
           </p>
 
           <button type="button" className="info-button">
-            Get pre-approved now
-          </button>
-
-          <button type="button" className="info-linklike">
-            Advertising disclosure
+            Get started
           </button>
         </div>
       </div>
@@ -35,8 +33,7 @@ export default function InfoSections() {
       <div className="info-row info-row--second">
         <div className="info-content">
           <h2 className="info-title">Get Local Info</h2>
-          <p className="info-text">
-            Does it have pet-friendly rentals? How are the schools? Get important
+          <p className="info-text">Get important
             local information on the area you&apos;re most interested in.
           </p>
 
@@ -59,7 +56,10 @@ export default function InfoSections() {
             </button>
 
             <button type="button" className="local-go" aria-label="Search">
-              <span aria-hidden="true">🔍</span>
+              <span className="searchicon" aria-hidden="true">
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
+              </span>
+
             </button>
           </div>
         </div>

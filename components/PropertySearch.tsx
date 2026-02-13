@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+
 
 type Option = { label: string; value: string };
 
@@ -346,8 +349,9 @@ export default function PropertySearch() {
             <div className="label label-hidden">Search</div>
             <button type="button" className="searchbtn" onClick={onSearch}>
               <span className="searchicon" aria-hidden="true">
-                🔍
+                <FontAwesomeIcon icon={faMagnifyingGlass} />
               </span>
+
               Search
             </button>
           </div>
@@ -434,10 +438,6 @@ export default function PropertySearch() {
                   <option value="5">5+</option>
                 </select>
 
-                {/* Optional reset for convenience */}
-                <button type="button" className="reset" onClick={resetAll}>
-                  Reset all filters
-                </button>
               </div>
 
               {/* Advantages */}
