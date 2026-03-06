@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 
 export default function AboutSplit() {
@@ -25,9 +26,9 @@ export default function AboutSplit() {
             so you always know what to expect — and what comes next.
           </p>
 
-          <button type="button" className="aboutsplit-btn">
+          <Link href="/about" type="button" className="aboutsplit-btn">
             LEARN MORE
-          </button>
+          </Link>
         </div>
 
         <div className="aboutsplit-right" aria-hidden="true">

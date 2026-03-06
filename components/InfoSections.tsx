@@ -1,12 +1,35 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
-
+import Link from "next/link";
 
 export default function InfoSections() {
   const [localQuery, setLocalQuery] = useState("");
+  const router = useRouter();
+
+  const runLocalSearch = () => {
+    const loc = localQuery.trim();
+
+    // If empty, just go to /buy without a location filter
+    if (!loc) {
+      router.push("/buy");
+      return;
+    }
+
+    const params = new URLSearchParams();
+    params.set("location", loc);
+    params.set("page", "1");
+
+    router.push(`/buy?${params.toString()}`);
+  };
+
+  const onSubmitLocalSearch = (e: React.FormEvent) => {
+    e.preventDefault();
+    runLocalSearch();
+  };
 
   return (
     <section className="infosections">
@@ -23,9 +46,9 @@ export default function InfoSections() {
             Quality information provided to you, so you can make the smart choice.
           </p>
 
-          <button type="button" className="info-button">
+          <Link href="/buy" type="button" className="info-button">
             Get started
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -33,11 +56,13 @@ export default function InfoSections() {
       <div className="info-row info-row--second">
         <div className="info-content">
           <h2 className="info-title">Get Local Info</h2>
-          <p className="info-text">Get important
-            local information on the area you&apos;re most interested in.
+          <p className="info-text">
+            Get important local information on the area you&apos;re most interested
+            in.
           </p>
 
-          <div className="local-search">
+          {/* Wrap in a form so Enter submits */}
+          <form className="local-search" onSubmit={onSubmitLocalSearch}>
             <input
               className="local-input"
               value={localQuery}
@@ -55,13 +80,13 @@ export default function InfoSections() {
               ×
             </button>
 
-            <button type="button" className="local-go" aria-label="Search">
+            {/* Submit button triggers the same handler */}
+            <button type="submit" className="local-go" aria-label="Search">
               <span className="searchicon" aria-hidden="true">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </span>
-
             </button>
-          </div>
+          </form>
         </div>
 
         <div

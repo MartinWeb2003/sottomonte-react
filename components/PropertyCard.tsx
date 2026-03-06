@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Listing } from "../types/listing";
 
@@ -35,14 +36,6 @@ export default function PropertyCard({ property }: Props) {
           For Sale
         </div>
 
-        <button
-          type="button"
-          className="pcard-fav"
-          aria-label={fav ? "Remove from favorites" : "Add to favorites"}
-          onClick={() => setFav((p) => !p)}
-        >
-          <HeartIcon filled={fav} />
-        </button>
       </div>
 
       <div className="pcard-body">
@@ -56,9 +49,9 @@ export default function PropertyCard({ property }: Props) {
 
         <div className="pcard-bottom">
           <div className="pcard-price">{formattedPrice}</div>
-          <button type="button" className="pcard-details">
+          <Link className="pcard-details" href={`/listing/${property.slug}`}>
             Details
-          </button>
+          </Link>
         </div>
       </div>
     </article>

@@ -100,9 +100,6 @@ export default function Navbar() {
 
         {/* RIGHT: Favorites + Language + Hamburger */}
         <div className="navbar-right">
-          <Link href="/favorites" className="favorites-link">
-            Favorites
-          </Link>
 
           <button className="lang-toggle" onClick={toggleLang} type="button">
             <span className="lang-full">{lang === "HR" ? "Hrvatski" : "Engleski"}</span>
@@ -128,7 +125,6 @@ export default function Navbar() {
           <Link href="/sell" onClick={() => setMenuOpen(false)}>Sell</Link>
           <Link href="/about" onClick={() => setMenuOpen(false)}>About us</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact us</Link>
-          <Link href="/favorites" onClick={() => setMenuOpen(false)}>Favorites</Link>
         </div>
       )}
     </header>

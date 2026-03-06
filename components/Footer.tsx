@@ -39,16 +39,6 @@ export default function Footer() {
           </ul>
         </div>
 
-        {/* SERVICES */}
-        <div className="footer-col">
-          <h4 className="footer-heading">Services</h4>
-          <ul className="footer-links">
-            <li><Link href="#">Property valuation</Link></li>
-            <li><Link href="#">Property marketing</Link></li>
-            <li><Link href="#">Investment consulting</Link></li>
-            <li><Link href="#">Buyer representation</Link></li>
-          </ul>
-        </div>
 
         {/* CONTACT */}
         <div className="footer-col">

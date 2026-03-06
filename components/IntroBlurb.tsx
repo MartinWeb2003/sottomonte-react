@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function IntroBlurb() {
   return (
     <section className="introblurb">
@@ -18,9 +20,9 @@ export default function IntroBlurb() {
 
         {/* NEW BUTTON */}
         <div className="introblurb-cta">
-          <button type="button" className="introblurb-button">
+          <Link href="/contact" type="button" className="introblurb-button">
             Contact us
-          </button>
+          </Link>
         </div>
       </div>
     </section>

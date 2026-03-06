@@ -1,7 +1,9 @@
 import PropertySearch from "../../components/PropertySearch";
 import PropertyCard from "../../components/PropertyCard";
 import Pagination from "../../components/Pagination";
+import Footer from "../../components/Footer";
 import { listings } from "../../data/listings";
+import Link from "next/link";
 
 const PER_PAGE = 20; // 4 per row * 5 rows
 
@@ -97,9 +99,9 @@ export default async function BuyPage({
             we&apos;ll help you find the right fit.
           </p>
 
-          <button type="button" className="buy-hero-btn">
+          <Link href="/about" type="button" className="buy-hero-btn">
             Read more
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -132,6 +134,7 @@ export default async function BuyPage({
           />
         </div>
       </section>
+      <Footer/>
     </main>
   );
 }

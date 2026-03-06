@@ -1,4 +1,5 @@
-// RecentlyListed.tsx
+import Link from "next/link";
+
 import PropertyCard from "./PropertyCard";
 import { listings } from "../data/listings";
 
@@ -22,9 +23,9 @@ export default function RecentlyListed() {
         </div>
 
         <div className="recent-footer">
-          <button type="button" className="recent-viewall">
+          <Link href="/buy" type="button" className="recent-viewall">
             View All Listings
-          </button>
+          </Link>
         </div>
       </div>
     </section>

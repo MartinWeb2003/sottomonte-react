@@ -5,10 +5,10 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 
-
 type Option = { label: string; value: string };
 
-const MAX_PRICE = 15_000_000;
+const MAX_PRICE = 8_000_000;
+const PRICE_STEP = 50_000;
 
 const formatEUR = (n: number) =>
   new Intl.NumberFormat("de-DE", {
@@ -100,7 +100,12 @@ export default function PropertySearch() {
   const [bedrooms, setBedrooms] = useState("all");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-  const [priceSlider, setPriceSlider] = useState(0); // 0..15000000
+
+  // Dual range slider (min + max) to match the reference look
+  const [minSlider, setMinSlider] = useState(0);
+  const [maxSlider, setMaxSlider] = useState(MAX_PRICE);
+  const [priceTouched, setPriceTouched] = useState(false);
+
   const [selectedAdvantages, setSelectedAdvantages] = useState<string[]>([]);
 
   // Property type dropdown
@@ -111,7 +116,7 @@ export default function PropertySearch() {
   const [draftTypes, setDraftTypes] = useState<string[]>([]);
   const [draftAdvantages, setDraftAdvantages] = useState<string[]>([]);
 
-  // ✅ Hydrate state from URL (works on /buy and also if you ever add query on home)
+  // ✅ Hydrate state from URL
   useEffect(() => {
     const qRegion = sp.get("region") ?? "all";
     const qLocation = sp.get("location") ?? "";
@@ -131,9 +136,16 @@ export default function PropertySearch() {
     setMinPrice(qMin);
     setMaxPrice(qMax);
 
-    // slider mirrors max if present, otherwise 0
+    // Slider mirrors min/max if present; otherwise defaults to full range.
+    const minN = toIntOrNull(sp.get("min"));
     const maxN = toIntOrNull(sp.get("max"));
-    setPriceSlider(maxN ? Math.min(Math.max(maxN, 0), MAX_PRICE) : 0);
+    const safeMin = minN != null ? Math.min(Math.max(minN, 0), MAX_PRICE) : 0;
+    const safeMax = maxN != null ? Math.min(Math.max(maxN, 0), MAX_PRICE) : MAX_PRICE;
+
+    setMinSlider(Math.min(safeMin, safeMax));
+    setMaxSlider(Math.max(safeMin, safeMax));
+
+    setPriceTouched((qMin !== "" && Number(qMin) > 0) || (qMax !== "" && Number(qMax) > 0));
 
     // open advanced if any advanced filters exist
     const shouldOpenAdvanced =
@@ -207,20 +219,32 @@ export default function PropertySearch() {
     setBedrooms("all");
     setMinPrice("");
     setMaxPrice("");
-    setPriceSlider(0);
+    setMinSlider(0);
+    setMaxSlider(MAX_PRICE);
+    setPriceTouched(false);
     setSelectedAdvantages([]);
     setDraftTypes([]);
     setDraftAdvantages([]);
     setTypeOpen(false);
 
-    // Reset URL on /buy, or just navigate to /buy if elsewhere
     router.push("/buy");
   };
 
-  // ✅ Slider controls MAX price filter (convenient)
-  const onSliderChange = (value: number) => {
-    setPriceSlider(value);
-    setMaxPrice(String(value));
+  const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
+
+  const onMinSliderChange = (value: number) => {
+    setPriceTouched(true);
+    const next = clamp(value, 0, maxSlider);
+    setMinSlider(next);
+    setMinPrice(String(next));
+    if (!advancedOpen) setAdvancedOpen(true);
+  };
+
+  const onMaxSliderChange = (value: number) => {
+    setPriceTouched(true);
+    const next = clamp(value, minSlider, MAX_PRICE);
+    setMaxSlider(next);
+    setMaxPrice(String(next));
     if (!advancedOpen) setAdvancedOpen(true);
   };
 
@@ -241,16 +265,15 @@ export default function PropertySearch() {
     const minClean = minPrice.trim();
     const maxClean = maxPrice.trim();
 
-    if (minClean && Number(minClean) > 0) params.set("min", String(Number(minClean)));
-    if (maxClean && Number(maxClean) > 0) params.set("max", String(Number(maxClean)));
+    // Only include price params if user actually set them.
+    if (priceTouched) {
+      if (minClean && Number(minClean) > 0) params.set("min", String(Number(minClean)));
+      if (maxClean && Number(maxClean) > 0) params.set("max", String(Number(maxClean)));
+    }
 
-    // When searching, always go to page 1
     params.set("page", "1");
 
     const url = `/buy?${params.toString()}`;
-
-    // On Home: navigate to /buy with filters
-    // On Buy: updates query → server page rerenders with filtered listings
     router.push(url);
   };
 
@@ -351,7 +374,6 @@ export default function PropertySearch() {
               <span className="searchicon" aria-hidden="true">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </span>
-
               Search
             </button>
           </div>
@@ -381,16 +403,41 @@ export default function PropertySearch() {
                 <div className="label">Price range</div>
 
                 <div className="sliderrow">
-                  <input
-                    type="range"
-                    min={0}
-                    max={MAX_PRICE}
-                    step={50_000}
-                    value={priceSlider}
-                    onChange={(e) => onSliderChange(Number(e.target.value))}
-                    className="slider"
-                  />
-                  <div className="slider-value">{formatEUR(priceSlider)}</div>
+                  <div
+                    className="range"
+                    style={{
+                      // @ts-expect-error -- CSS custom properties
+                      "--min": `${(minSlider / MAX_PRICE) * 100}%`,
+                      "--max": `${(maxSlider / MAX_PRICE) * 100}%`,
+                    }}
+                  >
+                    <div className="range-track" aria-hidden="true" />
+
+                    <input
+                      type="range"
+                      min={0}
+                      max={MAX_PRICE}
+                      step={PRICE_STEP}
+                      value={minSlider}
+                      onChange={(e) => onMinSliderChange(Number(e.target.value))}
+                      className="range-input"
+                      aria-label="Minimum price"
+                    />
+                    <input
+                      type="range"
+                      min={0}
+                      max={MAX_PRICE}
+                      step={PRICE_STEP}
+                      value={maxSlider}
+                      onChange={(e) => onMaxSliderChange(Number(e.target.value))}
+                      className="range-input"
+                      aria-label="Maximum price"
+                    />
+                  </div>
+
+                  <div className="slider-value">
+                    {formatEUR(minSlider)} – {formatEUR(maxSlider)}
+                  </div>
                 </div>
 
                 <div className="pricerow">
@@ -399,8 +446,15 @@ export default function PropertySearch() {
                     <input
                       value={minPrice}
                       onChange={(e) => {
+                        setPriceTouched(true);
                         setMinPrice(e.target.value);
                         if (!advancedOpen) setAdvancedOpen(true);
+
+                        const n = Number(e.target.value);
+                        if (Number.isFinite(n)) {
+                          const next = clamp(n, 0, maxSlider);
+                          setMinSlider(next);
+                        }
                       }}
                       placeholder="Enter min"
                       inputMode="numeric"
@@ -411,9 +465,14 @@ export default function PropertySearch() {
                     <input
                       value={maxPrice}
                       onChange={(e) => {
+                        setPriceTouched(true);
                         setMaxPrice(e.target.value);
+
                         const n = Number(e.target.value);
-                        if (Number.isFinite(n)) setPriceSlider(Math.min(Math.max(n, 0), MAX_PRICE));
+                        if (Number.isFinite(n)) {
+                          const next = clamp(n, minSlider, MAX_PRICE);
+                          setMaxSlider(next);
+                        }
                       }}
                       placeholder="Enter max"
                       inputMode="numeric"
@@ -437,7 +496,6 @@ export default function PropertySearch() {
                   <option value="4">4+</option>
                   <option value="5">5+</option>
                 </select>
-
               </div>
 
               {/* Advantages */}
@@ -464,7 +522,6 @@ export default function PropertySearch() {
               </div>
             </div>
 
-            {/* If you prefer reset at bottom like before, you can remove the reset button above and keep this one */}
             <button type="button" className="reset" onClick={resetAll}>
               Reset all filters
             </button>

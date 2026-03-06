@@ -23,9 +23,9 @@ export default function AboutPage() {
             </p>
 
             <div className="aboutpage-hero-actions">
-              <button type="button" className="aboutpage-btn">
+              <Link type="button" href="/contact" className="aboutpage-btn">
                 Contact us
-              </button>
+              </Link>
 
               <Link className="aboutpage-link" href="/buy">
                 Browse listings
@@ -85,7 +85,6 @@ export default function AboutPage() {
       Neighborhood-level insights, true pricing context, and guidance shaped by what actually sells.
     </p>
 
-    <div className="benefit-link">Learn more →</div>
   </SpotlightCard>
 
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-b">
@@ -101,7 +100,6 @@ export default function AboutPage() {
       A data-backed approach to position your property competitively and maximize outcomes.
     </p>
 
-    <div className="benefit-link">Learn more →</div>
   </SpotlightCard>
 
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-c">
@@ -117,7 +115,6 @@ export default function AboutPage() {
       Transparent updates, fast responses, and a simple process. You always know what’s next.
     </p>
 
-    <div className="benefit-link">Learn more →</div>
   </SpotlightCard>
 
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-d">
@@ -133,7 +130,6 @@ export default function AboutPage() {
       From viewings and negotiation to due diligence, we guide you through every step.
     </p>
 
-    <div className="benefit-link">Learn more →</div>
   </SpotlightCard>
 </div>
 
@@ -157,9 +153,9 @@ export default function AboutPage() {
               clarity and confidence. Our goal is a smooth process and a result you will feel great about.
             </p>
 
-            <button type="button" className="aboutpage-btn">
+            <Link type="button" href="/contact" className="aboutpage-btn">
               Work with us
-            </button>
+            </Link>
           </div>
 
           <div className="aboutpage-split-right" aria-hidden="true">
@@ -183,12 +179,12 @@ export default function AboutPage() {
           <p className="aboutpage-cta-text">
             Contact us and let's find your own piece of paradise.
           </p>
-          <button type="button" className="aboutpage-btn">
+          <Link type="button" href="/contact" className="aboutpage-btn">
             Contact us
-          </button>
+          </Link>
         </div>
       </section>
       <Footer/>
     </main>
-  );
+  );  
 }

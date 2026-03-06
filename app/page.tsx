@@ -23,7 +23,6 @@ export default function HomePage() {
       <IntroBlurb />
       <RecentlyListed />
       <AboutSplit />
-      <Benefits />
       <FinalCTA />
       <Footer />
       {/* Next sections will go here (featured listings, about, etc.) */}
