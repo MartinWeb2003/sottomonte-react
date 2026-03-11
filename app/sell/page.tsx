@@ -43,10 +43,6 @@ export default function SellPage() {
               <span className="sellIntroCheck" aria-hidden="true">✓</span>
               Professional property marketing
             </div>
-            <div className="sellIntroTrustItem">
-              <span className="sellIntroCheck" aria-hidden="true">✓</span>
-              Discreet &amp; transparent service
-            </div>
           </div>
 
           <div className="sellIntroChoices">

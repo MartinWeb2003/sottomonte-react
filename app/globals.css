@@ -34,6 +34,7 @@ body {
   position: fixed;
   top: 0;
   width: 100%;
+  height: 120px;
   z-index: 1000;
   color: white;
   background: linear-gradient(
@@ -52,11 +53,17 @@ body {
 
 .navbar-inner {
   width: 100%;
-  height: 70px;
+  height: 75px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 48px; /* pushes logo and right items toward edges */
+  padding-bottom: 10px;
+}
+
+.navbar-inner--menu-open {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(8px);
 }
 
 
@@ -73,6 +80,14 @@ body {
   display: block;
   height: auto;
 }
+.logo-full {
+  filter: invert(1);
+  max-width: 100%;
+  height: auto;
+  margin-top: 30px;
+}
+
+
 
 /* Brand text next to logo */
 .brand-text {
@@ -152,10 +167,11 @@ body {
 .mobile-menu {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
   padding: 20px 24px;
   background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
+  margin-top: 0px;
 }
 
 .mobile-menu a {
@@ -393,6 +409,11 @@ body {
   position: relative;
   z-index: 5;
 }
+.dropdown-scroll,
+.checkrow span {
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
 
 .searchbox {
   background: #ffffff;
@@ -407,7 +428,7 @@ body {
 
 .searchgrid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 320px;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) minmax(220px, 320px);
   gap: 26px;
   align-items: end;
 }
@@ -415,6 +436,25 @@ body {
 .field {
   position: relative;
 }
+.field,
+.adv-block {
+  min-width: 0;
+}
+
+.control,
+.control-select,
+select.control {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.aboutpage{}
 
 .field .label {
   font-size: 18px;
@@ -531,9 +571,11 @@ body {
 }
 
 .checkrow {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr);
+  align-items: start;
+  column-gap: 12px;
+  row-gap: 0;
   font-size: 18px;
   color: #222;
   padding: 8px 4px;
@@ -542,6 +584,14 @@ body {
 .checkrow input {
   width: 20px;
   height: 20px;
+  margin: 0;
+  flex: 0 0 20px;
+  align-self: start;
+}
+
+.checkrow span {
+  min-width: 0;
+  line-height: 1.35;
 }
 
 .dropdown-actions {
@@ -839,10 +889,46 @@ body {
   .searchwrap {
     margin-top: -30px;
   }
+  .aboutpage-hero-actions{
+    flex-direction: column;
+  }
+  .aboutpage-hero-inner{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .aboutpage-hero{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  .aboutpage-lead{
+    width: 80%;
+  }
+  .aboutpage-p{
+    text-align: center;
+  }
+  .aboutpage-h2{
+    text-align: center;
+  }
+  .findus-left{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
 
   .searchbox {
     width: calc(100% - 28px);
     padding: 18px 16px 20px;
+  }
+  .introblurb-inner{
+    width: 80%;
   }
 }
 
@@ -867,8 +953,9 @@ body {
 .info-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 420px;
+
 }
+.aboutpage{}
 
 /* image side */
 .info-image {
@@ -949,17 +1036,21 @@ body {
 /* Local search bar (matches reference style) */
 .local-search {
   display: grid;
-  grid-template-columns: 1fr 48px 54px;
+  grid-template-columns: minmax(0, 1fr) 48px 54px;
   align-items: center;
   gap: 10px;
+  width: 100%;
   max-width: 520px;
   background: #fff;
   border: 1px solid #d7d7d7;
   border-radius: 999px;
   padding: 10px 10px 10px 18px;
+  box-sizing: border-box;
 }
 
 .local-input {
+  min-width: 0;
+  width: 100%;
   border: none;
   outline: none;
   font-size: 18px;
@@ -971,6 +1062,7 @@ body {
 .local-clear {
   width: 48px;
   height: 42px;
+  min-width: 0;
   border: none;
   background: transparent;
   font-size: 24px;
@@ -982,6 +1074,7 @@ body {
 .local-go {
   width: 54px;
   height: 44px;
+  min-width: 0;
   border: none;
   background: #2c2c2c;
   color: #fff;
@@ -1010,6 +1103,18 @@ body {
   .info-row {
     grid-template-columns: 1fr;
     min-height: auto;
+  }
+  .sellIntroTrust{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .sellIntroTrustItem{
+    width: 70%;
+  }
+  .sellIntroChoiceCard{
+    width: 80%;
+    margin: 0 auto;
   }
 
   .info-image {
@@ -1305,6 +1410,9 @@ body {
   .recent-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .searchgrid {
+    grid-template-columns: 1fr 1fr;
+  }
 }
 
 @media (max-width: 700px) {
@@ -1569,17 +1677,31 @@ body {
   width: calc(100% - 80px);
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr;
-  gap: 50px;
+  grid-template-columns: 1.6fr 1fr 1fr;
+  gap: 60px;
+  align-items: start;
 }
+.footer-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+.aboutpage{}
 
 /* Brand */
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 14px;
-  margin-bottom: 18px;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-bottom: 0;
+  background-color: transparent;
 }
+.footer-logo img{
+  width: 150px;
+  height: auto;
+}
+
 
 .footer-brand-text {
   display: flex;
@@ -1599,10 +1721,11 @@ body {
 }
 
 .footer-desc {
-  max-width: 360px;
+  max-width: 420px;
   line-height: 1.7;
   opacity: 0.85;
   font-size: 15px;
+  margin: 0;
 }
 
 /* Columns */
@@ -1649,10 +1772,12 @@ body {
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .footer-inner {
-    grid-template-columns: 1fr;
-    gap: 36px;
+@media (max-width: 1000px) {
+  .footer-desc{
+    display: none;
+  }
+  .sellIntroSubtext{
+    width: 80%;
   }
 
   .footer {
@@ -1729,6 +1854,12 @@ body {
   .buy-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+  .navbar-inner {
+    padding: 0 20px;
+    padding-bottom: 10px;
+  }
+  .info-content { padding: 48px 32px; }
+  .aboutsplit-left { padding: 48px 32px; }
 }
 
 @media (max-width: 700px) {
@@ -2219,10 +2350,9 @@ body {
 
 .aboutpage-benefit {
   padding: 22px 20px;
-  min-height: 150px;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
 }
 
 /* icon pill */
@@ -2277,6 +2407,80 @@ body {
 @media (max-width: 640px) {
   .aboutpage-benefits {
     grid-template-columns: 1fr;
+  }
+  .footer-logo{
+    width: 80px;
+  }
+  .footer-brand-row{
+    justify-content: center;
+    transform: translateY(40px);
+  }
+  .info-content {
+    padding: 40px 16px;
+  }
+  .aboutpage-btn{
+    width: 60%;
+  }
+  .aboutpage{}
+
+  .local-search {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    border-radius: 20px;
+    padding: 14px;
+  }
+
+  .local-input {
+    padding: 12px 0;
+    font-size: 16px;
+  }
+
+  .local-clear,
+  .local-go {
+    width: 100%;
+    height: 46px;
+  }
+
+  .local-clear {
+    border-radius: 12px;
+    background: #f3f3f3;
+  }
+
+  .local-go {
+    border-radius: 12px;
+  }
+
+  .dropdown {
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .dropdown-scroll {
+    padding: 14px 14px 8px;
+  }
+
+  .field .label,
+  .adv-block .label {
+    font-size: 16px;
+  }
+
+  .control,
+  .control-select,
+  select.control {
+    height: 54px;
+    padding: 0 14px;
+    font-size: 16px;
+  }
+
+  .checkrow {
+    font-size: 16px;
+  }
+
+  .pricerow {
+    grid-template-columns: 1fr;
+    gap: 12px;
   }
 }
 
@@ -2497,6 +2701,14 @@ body {
   .findus-inner {
     grid-template-columns: 1fr;
     gap: 40px;
+  }
+  .aboutpage-story-inner{
+    width: 80%;
+  }
+  .aboutpage-split-left {
+  width: 80%;
+  margin: 0 auto;
+  text-align: center; /* optional, keeps text centered */
   }
 
   .findus-map {
@@ -3002,6 +3214,9 @@ body {
   .contact-row2 {
     grid-template-columns: 1fr;
   }
+  .footer-desc{
+    display: none;
+  }
 }
 
 /* Dual range slider (pixel-aligned) */
@@ -3368,7 +3583,16 @@ body {
   .sell-step-grid {
     grid-template-columns: 1fr;
   }
+  .navbar-inner {
+    padding: 0 14px;
+    padding-bottom: 10px;
+  }
+
+  .hero-content {
+    padding: 0 14px;
+  }
 }
+.aboutpage{}
 
 /* =========================
    SELL PAGE (app/sell)
@@ -3434,7 +3658,6 @@ body {
   align-items: center;
   text-align: center;
 }
-.aboutpage{}
 .sellHeroTitle {
   margin: 0;
   color: #ffffff;
@@ -3442,7 +3665,7 @@ body {
   letter-spacing: 0.02em;
   text-transform: uppercase;
   line-height: 1.05;
-  font-size: clamp(40px, 5vw, 72px);
+  font-size: 4rem;
 }
 
 .sellHeroTitleLine {
@@ -3703,7 +3926,7 @@ body {
 }
 
 .sellIntroChoiceIcon {
-  width: 35;
+  width: 35px;
   height: 35px;
   border-radius: 14px;
   display: inline-flex;
@@ -3712,16 +3935,18 @@ body {
   background: white;
   font-size: 20px;
 }
+.aboutpage{}
 
 
 .sellIntroChoiceIcon svg {
-  font-size: 10px;
+  font-size: 20px;
   color: #1f2937;
   height: 20px;
 }
+.aboutpage{}
 
 
-.sellIntroChoiceTitle {
+h3.sellIntroChoiceTitle {
   margin: 0;
   font-size: 18px;
   font-weight: 900;
@@ -3778,4 +4003,89 @@ body {
     grid-template-columns: 1fr;
   }
 }
-.aboutpage{}
+
+@media (max-width: 480px) {
+  /* ===== NAVBAR ===== */
+  .navbar {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+  .aboutpage-btn{
+    width: 80%;
+  }
+  .aboutpage{}
+
+  .navbar-inner {
+    padding: 0 10px;
+    height: 60px;
+    min-width: 0;
+  }
+ 
+
+  .navbar-logo {
+    min-width: 0;
+    flex: 1 1 auto;
+    transform: translateY(4px);
+  }
+
+  .logo-full {
+    width: 120px;
+    max-width: 100%;
+    height: auto;
+    margin-top: 0;
+  }
+
+  .navbar-right {
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .lang-toggle {
+    padding: 4px 8px;
+    font-size: 12px;
+  }
+
+  .hamburger {
+    font-size: 22px;
+    line-height: 1;
+  }
+
+  .mobile-menu {
+    padding: 16px 14px 18px;
+  }
+
+  /* ===== FOOTER ===== */
+  .footer-inner {
+    width: calc(100% - 24px);
+    grid-template-columns: 1fr;
+    justify-content: center;
+    justify-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+
+  .footer-col {
+    width: 100%;
+    align-items: center;
+  }
+
+  .footer-links,
+  .footer-contact {
+    align-items: center;
+  }
+
+  .footer-bottom {
+    font-size: 13px;
+    padding: 20px 10px;
+  }
+  .footer-brand-row{
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .sellHeroTitle {
+    font-size: 2.8rem;
+  }
+}

@@ -10,37 +10,35 @@ const MOBILE_BREAKPOINT = 900;
 export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [lang, setLang] = useState<Lang>("HR");
-  const menuRef = useRef<HTMLDivElement | null>(null);
+  const navRef = useRef<HTMLElement | null>(null);
 
-  // ✅ NEW: hide/show on scroll direction
   const [navHidden, setNavHidden] = useState(false);
   const lastYRef = useRef(0);
 
   const toggleLang = () => setLang((p) => (p === "HR" ? "ENG" : "HR"));
   const toggleMenu = () => setMenuOpen((p) => !p);
 
-  // Close menu on outside click
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
       if (!menuOpen) return;
-      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
         setMenuOpen(false);
       }
     }
+
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [menuOpen]);
 
-  // Close menu on resize to desktop
   useEffect(() => {
     function onResize() {
       if (window.innerWidth > MOBILE_BREAKPOINT) setMenuOpen(false);
     }
+
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  // ✅ NEW: scroll direction detection
   useEffect(() => {
     lastYRef.current = window.scrollY;
 
@@ -48,14 +46,11 @@ export default function Navbar() {
       const y = window.scrollY;
       const delta = y - lastYRef.current;
 
-      // ignore tiny movements
       if (Math.abs(delta) < 6) return;
 
-      // if scrolling down and not at the very top => hide
-      if (delta > 0 && y > 80) {
+      if (delta > 0 && y > 80 && !menuOpen) {
         setNavHidden(true);
       } else {
-        // scrolling up => show
         setNavHidden(false);
       }
 
@@ -64,32 +59,27 @@ export default function Navbar() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+  }, [menuOpen]);
 
-  // Only render mobile menu on mobile widths
   const shouldRenderMobileMenu =
-    menuOpen && typeof window !== "undefined" && window.innerWidth <= MOBILE_BREAKPOINT;
+    menuOpen &&
+    typeof window !== "undefined" &&
+    window.innerWidth <= MOBILE_BREAKPOINT;
 
   return (
-    <header className={`navbar ${navHidden ? "navbar--hidden" : ""}`}>
-      <nav className="navbar-inner">
-        {/* LEFT: Logo */}
-        <Link href="/" className="navbar-logo">
+    <header className={`navbar ${navHidden ? "navbar--hidden" : ""}`} ref={navRef}>
+      <nav className={`navbar-inner ${menuOpen ? "navbar-inner--menu-open" : ""}`}>
+        <Link href="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
           <Image
-            src="/logo-full.png"
+            src="/SottomonteB_RE1.png"
             alt="Sottomonte Real Estate"
             width={180}
             height={40}
             className="logo-full"
             priority
           />
-          <span className="brand-text">
-            <span className="brand-top">SOTTOMONTE</span>
-            <span className="brand-bottom">REAL ESTATE CROATIA</span>
-          </span>
         </Link>
 
-        {/* CENTER links (desktop) */}
         <div className="navbar-links">
           <Link href="/">Home</Link>
           <Link href="/buy">Buy</Link>
@@ -98,9 +88,7 @@ export default function Navbar() {
           <Link href="/contact">Contact us</Link>
         </div>
 
-        {/* RIGHT: Favorites + Language + Hamburger */}
         <div className="navbar-right">
-
           <button className="lang-toggle" onClick={toggleLang} type="button">
             <span className="lang-full">{lang === "HR" ? "Hrvatski" : "Engleski"}</span>
             <span className="lang-short">{lang}</span>
@@ -112,15 +100,15 @@ export default function Navbar() {
             type="button"
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
+            aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             {menuOpen ? "✕" : "☰"}
           </button>
         </div>
       </nav>
 
-      {/* Mobile dropdown */}
       {shouldRenderMobileMenu && (
-        <div className="mobile-menu" id="mobile-menu" ref={menuRef}>
+        <div className="mobile-menu" id="mobile-menu">
           <Link href="/buy" onClick={() => setMenuOpen(false)}>Buy</Link>
           <Link href="/sell" onClick={() => setMenuOpen(false)}>Sell</Link>
           <Link href="/about" onClick={() => setMenuOpen(false)}>About us</Link>

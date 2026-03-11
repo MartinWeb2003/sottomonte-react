@@ -82,7 +82,7 @@ export default function PropertySearch() {
   const advantages: Option[] = useMemo(
     () => [
       { label: "Sea view", value: "sea-view" },
-      { label: "Swimming pool", value: "pool" },
+      { label: "Pool", value: "pool" },
       { label: "Newly built", value: "newly-built" },
       { label: "Stone house", value: "stone-house" },
       { label: "Luxury", value: "luxury" },
@@ -300,43 +300,32 @@ export default function PropertySearch() {
             </button>
 
             {typeOpen && (
-              <div className="dropdown">
-                <div className="dropdown-scroll">
-                  <div className="dropdown-section-title">Property type</div>
-                  {propertyTypes.map((opt) => (
-                    <label key={opt.value} className="checkrow">
-                      <input
-                        type="checkbox"
-                        checked={draftTypes.includes(opt.value)}
-                        onChange={() => toggleDraftType(opt.value)}
-                      />
-                      <span>{opt.label}</span>
-                    </label>
-                  ))}
+            <div className="dropdown">
+              <div className="dropdown-scroll">
+                <div className="dropdown-section-title">Property type</div>
 
-                  <div className="dropdown-section-title">Advantages</div>
-                  {advantages.map((opt) => (
-                    <label key={opt.value} className="checkrow">
-                      <input
-                        type="checkbox"
-                        checked={draftAdvantages.includes(opt.value)}
-                        onChange={() => toggleDraftAdvantage(opt.value)}
-                      />
-                      <span>{opt.label}</span>
-                    </label>
-                  ))}
-                </div>
-
-                <div className="dropdown-actions">
-                  <button type="button" className="btn-ghost" onClick={clearDropdown}>
-                    Clear
-                  </button>
-                  <button type="button" className="btn-solid" onClick={applyDropdown}>
-                    Apply
-                  </button>
-                </div>
+                {propertyTypes.map((opt) => (
+                  <label key={opt.value} className="checkrow">
+                    <input
+                      type="checkbox"
+                      checked={draftTypes.includes(opt.value)}
+                      onChange={() => toggleDraftType(opt.value)}
+                    />
+                    <span>{opt.label}</span>
+                  </label>
+                ))}
               </div>
-            )}
+
+              <div className="dropdown-actions">
+                <button type="button" className="btn-ghost" onClick={clearDropdown}>
+                  Clear
+                </button>
+                <button type="button" className="btn-solid" onClick={applyDropdown}>
+                  Apply
+                </button>
+              </div>
+            </div>
+          )}
           </div>
 
           {/* Region */}
@@ -363,7 +352,7 @@ export default function PropertySearch() {
               className="control"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="Type a city, island, neighborhood..."
+              placeholder="Type a location..."
             />
           </div>
 

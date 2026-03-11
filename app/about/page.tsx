@@ -50,11 +50,7 @@ export default function AboutPage() {
       {/* STORY */}
       <section className="aboutpage-story">
         <div className="aboutpage-story-inner">
-          <BlurText
-            text="A modern approach to Croatian real estate"
-            as="h2"
-            className="aboutpage-h2"
-          />
+          <h2 className="aboutpage-h2">A modern approach to Croatian real estate</h2>
 
           <div className="aboutpage-story-grid">
             <p className="aboutpage-p">
@@ -75,9 +71,6 @@ export default function AboutPage() {
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-a">
     <div className="benefit-top">
       <div className="benefit-label">Local Market</div>
-      <div className="benefit-icon">
-        <Image src="/icons/icon1.png" alt="" width={34} height={34} />
-      </div>
     </div>
 
     <div className="benefit-title">Expert market knowledge</div>
@@ -90,9 +83,6 @@ export default function AboutPage() {
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-b">
     <div className="benefit-top">
       <div className="benefit-label">Pricing</div>
-      <div className="benefit-icon">
-        <Image src="/icons/icon2.png" alt="" width={34} height={34} />
-      </div>
     </div>
 
     <div className="benefit-title">Strategic pricing</div>
@@ -105,24 +95,17 @@ export default function AboutPage() {
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-c">
     <div className="benefit-top">
       <div className="benefit-label">Updates</div>
-      <div className="benefit-icon">
-        <Image src="/icons/icon3.png" alt="" width={34} height={34} />
-      </div>
     </div>
 
     <div className="benefit-title">Clear communication</div>
     <p className="benefit-text">
       Transparent updates, fast responses, and a simple process. You always know what’s next.
-    </p>
-
+    </p>  
   </SpotlightCard>
 
   <SpotlightCard className="aboutpage-benefit aboutpage-benefit-d">
     <div className="benefit-top">
       <div className="benefit-label">Support</div>
-      <div className="benefit-icon">
-        <Image src="/icons/icon4.png" alt="" width={34} height={34} />
-      </div>
     </div>
 
     <div className="benefit-title">End-to-end guidance</div>

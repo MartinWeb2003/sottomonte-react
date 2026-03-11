@@ -5,30 +5,24 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer-inner">
-        {/* LEFT */}
         <div className="footer-col footer-brand">
-          <div className="footer-logo">
-            <Image
-              src="/logo-full.png"
-              alt="Sottomonte"
-              width={46}
-              height={46}
-            />
-            <div className="footer-brand-text">
-              <span className="footer-brand-top">SOTTOMONTE</span>
-              <span className="footer-brand-bottom">
-                REAL ESTATE CROATIA
-              </span>
+          <div className="footer-brand-row">
+            <div className="footer-logo">
+              <Image
+                src="/Sottomonte_wt.png"
+                alt="Sottomonte"
+                width={90}
+                height={90}
+              />
             </div>
-          </div>
 
-          <p className="footer-desc">
-            Sottomonte connects buyers and sellers with exceptional properties
-            across Croatia’s most desirable coastal and inland locations.
-          </p>
+            <p className="footer-desc">
+              Sottomonte connects buyers and sellers with exceptional properties
+              across Croatia’s most desirable coastal and inland locations.
+            </p>
+          </div>
         </div>
 
-        {/* NAVIGATION */}
         <div className="footer-col">
           <h4 className="footer-heading">Navigation</h4>
           <ul className="footer-links">
@@ -39,8 +33,6 @@ export default function Footer() {
           </ul>
         </div>
 
-
-        {/* CONTACT */}
         <div className="footer-col">
           <h4 className="footer-heading">Contact</h4>
           <ul className="footer-contact">
