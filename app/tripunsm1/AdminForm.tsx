@@ -233,7 +233,7 @@ export default function AdminForm({ editingListing, onSuccess, onCancel }: Props
           <div className="adm-field">
             <label className="adm-label">Property Type *</label>
             <select className="adm-select" value={propertyType}
-              onChange={(e) => setPropertyType(e.target.value)}>
+              onChange={(e) => setPropertyType(e.target.value as typeof propertyType)}>
               {PROPERTY_TYPES.map((t) => (
                 <option key={t.value} value={t.value}>{t.label}</option>
               ))}
