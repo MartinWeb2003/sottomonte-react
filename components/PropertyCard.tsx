@@ -4,12 +4,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import type { Listing } from "../types/listing";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 type Props = {
   property: Listing;
 };
 
 export default function PropertyCard({ property }: Props) {
+  const { lang } = useLang();
+  const tr = translations[lang].propertyCard;
+
   const [fav, setFav] = useState(false);
 
   const formattedPrice = useMemo(() => {
@@ -33,7 +38,7 @@ export default function PropertyCard({ property }: Props) {
 
         <div className="pcard-tag">
           <span className="pcard-dot" aria-hidden="true" />
-          For Sale
+          {tr.forSale}
         </div>
 
       </div>
@@ -50,7 +55,7 @@ export default function PropertyCard({ property }: Props) {
         <div className="pcard-bottom">
           <div className="pcard-price">{formattedPrice}</div>
           <Link className="pcard-details" href={`/listing/${property.slug}`}>
-            Details
+            {tr.details}
           </Link>
         </div>
       </div>

@@ -58,3 +58,8 @@ export type Listing = {
 
   coordinates?: { lat: number; lng: number };
 };
+
+export type AdminListing = Listing & {
+  _sanityId: string;
+  imageAssets: Array<{ _key: string; assetId: string; url: string }>;
+};

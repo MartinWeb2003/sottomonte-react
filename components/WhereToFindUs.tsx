@@ -1,16 +1,20 @@
+"use client";
+
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
+
 export default function WhereToFindUs() {
+  const { lang } = useLang();
+  const tr = translations[lang].whereToFindUs;
+
   return (
     <section className="findus">
       <div className="findus-inner">
         {/* Left side */}
         <div className="findus-left">
-          <h2 className="findus-title">Where to find us</h2>
+          <h2 className="findus-title">{tr.title}</h2>
 
-          <p className="findus-text">
-            Visit us at our office in the beautiful coastal town of Orebić. We welcome you to
-            stop by and discuss your real estate plans in
-            person.
-          </p>
+          <p className="findus-text">{tr.text}</p>
 
           <div className="findus-address">
             Ul. kralja Zvonimira 8<br />

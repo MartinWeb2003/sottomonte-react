@@ -2,12 +2,13 @@ import PropertySearch from "../../components/PropertySearch";
 import PropertyCard from "../../components/PropertyCard";
 import Pagination from "../../components/Pagination";
 import Footer from "../../components/Footer";
-import { listings } from "../../data/listings";
-import Link from "next/link";
+import BuyHero from "../../components/BuyHero";
+import BuyEmptyState from "../../components/BuyEmptyState";
+import { getAllListings } from "../../lib/queries";
+import type { Listing } from "../../types/listing";
 
 const PER_PAGE = 20; // 4 per row * 5 rows
 
-type Listing = (typeof listings)[number];
 type Feature = Listing["features"][number];
 
 function parseCSV(v: string | undefined) {
@@ -53,9 +54,11 @@ export default async function BuyPage({
   const minPrice = toNum(sp.min ?? undefined);
   const maxPrice = toNum(sp.max ?? undefined);
 
+  // Fetch all published for-sale listings from Sanity
+  const allListings = await getAllListings();
+
   // Filter
-  const filtered = listings
-    .filter((l) => l.isPublished)
+  const filtered = allListings
     .filter((l) => l.status === "for-sale")
     .filter((l) => (region === "all" ? true : l.region === region))
     .filter((l) => {
@@ -88,50 +91,41 @@ export default async function BuyPage({
 
   return (
     <main className="buy">
-      <section className="buy-hero">
-        <div className="buy-hero-inner">
-          <h1 className="buy-hero-title">Properties for Sale in Croatia</h1>
-
-          <p className="buy-hero-text">
-            Explore Sottomonte&apos;s curated selection of properties across Croatia —
-            from traditional stone houses to modern coastal villas. Whether you&apos;re
-            looking for a family home, a weekend escape, or an investment opportunity,
-            we&apos;ll help you find the right fit.
-          </p>
-
-          <Link href="/about" type="button" className="buy-hero-btn">
-            Read more
-          </Link>
-        </div>
-      </section>
+      <BuyHero />
 
       <PropertySearch />
 
       <section className="buy-grid-section">
         <div className="buy-grid-inner">
-          <div className="buy-grid">
-            {propertiesForPage.map((p) => (
-              <PropertyCard key={p.id} property={p} />
-            ))}
-          </div>
+          {propertiesForPage.length === 0 ? (
+            <BuyEmptyState />
+          ) : (
+            <>
+              <div className="buy-grid">
+                {propertiesForPage.map((p) => (
+                  <PropertyCard key={p.id} property={p} />
+                ))}
+              </div>
 
-          <Pagination
-            page={safePage}
-            totalPages={totalPages}
-            totalItems={total}
-            from={total === 0 ? 0 : start + 1}
-            to={Math.min(end, total)}
-            basePath="/buy"
-            query={{
-              region: sp.region,
-              location: sp.location,
-              type: sp.type,
-              adv: sp.adv,
-              beds: sp.beds,
-              min: sp.min,
-              max: sp.max,
-            }}
-          />
+              <Pagination
+                page={safePage}
+                totalPages={totalPages}
+                totalItems={total}
+                from={total === 0 ? 0 : start + 1}
+                to={Math.min(end, total)}
+                basePath="/buy"
+                query={{
+                  region: sp.region,
+                  location: sp.location,
+                  type: sp.type,
+                  adv: sp.adv,
+                  beds: sp.beds,
+                  min: sp.min,
+                  max: sp.max,
+                }}
+              />
+            </>
+          )}
         </div>
       </section>
       <Footer/>

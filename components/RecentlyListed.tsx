@@ -1,33 +1,15 @@
-import Link from "next/link";
+import { getAllListings } from "../lib/queries";
+import RecentlyListedClient from "./RecentlyListedClient";
 
-import PropertyCard from "./PropertyCard";
-import { listings } from "../data/listings";
+export default async function RecentlyListed() {
+  const allListings = await getAllListings();
 
-export default function RecentlyListed() {
-  const recent = listings
-    .filter((p) => p.isPublished)
-    .sort(
-      (a, b) => new Date(b.listedAt).getTime() - new Date(a.listedAt).getTime()
-    )
+  const recent = allListings
+    .sort((a, b) => new Date(b.listedAt).getTime() - new Date(a.listedAt).getTime())
     .slice(0, 4);
 
-  return (
-    <section className="recent">
-      <div className="recent-inner">
-        <h2 className="recent-title">Recently listed properties</h2>
+  // Hide the section entirely if fewer than 4 listings exist
+  if (recent.length < 4) return null;
 
-        <div className="recent-grid">
-          {recent.map((p) => (
-            <PropertyCard key={p.id} property={p} />
-          ))}
-        </div>
-
-        <div className="recent-footer">
-          <Link href="/buy" type="button" className="recent-viewall">
-            View All Listings
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
+  return <RecentlyListedClient listings={recent} />;
 }

@@ -3,19 +3,25 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
-type Lang = "HR" | "ENG";
 const MOBILE_BREAKPOINT = 900;
 
 export default function Navbar() {
+  const pathname = usePathname();
+  const { lang, toggleLang } = useLang();
+  const tr = translations[lang].navbar;
+
+  if (pathname.startsWith("/tripunsm1")) return null;
+
   const [menuOpen, setMenuOpen] = useState(false);
-  const [lang, setLang] = useState<Lang>("HR");
   const navRef = useRef<HTMLElement | null>(null);
 
   const [navHidden, setNavHidden] = useState(false);
   const lastYRef = useRef(0);
 
-  const toggleLang = () => setLang((p) => (p === "HR" ? "ENG" : "HR"));
   const toggleMenu = () => setMenuOpen((p) => !p);
 
   useEffect(() => {
@@ -81,17 +87,17 @@ export default function Navbar() {
         </Link>
 
         <div className="navbar-links">
-          <Link href="/">Home</Link>
-          <Link href="/buy">Buy</Link>
-          <Link href="/sell">Sell</Link>
-          <Link href="/about">About us</Link>
-          <Link href="/contact">Contact us</Link>
+          <Link href="/">{tr.home}</Link>
+          <Link href="/buy">{tr.buy}</Link>
+          <Link href="/sell">{tr.sell}</Link>
+          <Link href="/about">{tr.about}</Link>
+          <Link href="/contact">{tr.contact}</Link>
         </div>
 
         <div className="navbar-right">
           <button className="lang-toggle" onClick={toggleLang} type="button">
-            <span className="lang-full">{lang === "HR" ? "Hrvatski" : "Engleski"}</span>
-            <span className="lang-short">{lang}</span>
+            <span className="lang-full">{tr.langFull}</span>
+            <span className="lang-short">{tr.langShort}</span>
           </button>
 
           <button
@@ -109,10 +115,10 @@ export default function Navbar() {
 
       {shouldRenderMobileMenu && (
         <div className="mobile-menu" id="mobile-menu">
-          <Link href="/buy" onClick={() => setMenuOpen(false)}>Buy</Link>
-          <Link href="/sell" onClick={() => setMenuOpen(false)}>Sell</Link>
-          <Link href="/about" onClick={() => setMenuOpen(false)}>About us</Link>
-          <Link href="/contact" onClick={() => setMenuOpen(false)}>Contact us</Link>
+          <Link href="/buy" onClick={() => setMenuOpen(false)}>{tr.buy}</Link>
+          <Link href="/sell" onClick={() => setMenuOpen(false)}>{tr.sell}</Link>
+          <Link href="/about" onClick={() => setMenuOpen(false)}>{tr.about}</Link>
+          <Link href="/contact" onClick={() => setMenuOpen(false)}>{tr.contact}</Link>
         </div>
       )}
     </header>

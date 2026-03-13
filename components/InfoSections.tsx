@@ -5,15 +5,19 @@ import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 export default function InfoSections() {
+  const { lang } = useLang();
+  const tr = translations[lang].infoSections;
+
   const [localQuery, setLocalQuery] = useState("");
   const router = useRouter();
 
   const runLocalSearch = () => {
     const loc = localQuery.trim();
 
-    // If empty, just go to /buy without a location filter
     if (!loc) {
       router.push("/buy");
       return;
@@ -41,13 +45,11 @@ export default function InfoSections() {
           role="presentation"
         />
         <div className="info-content">
-          <h2 className="info-title">Need property info? Get started</h2>
-          <p className="info-text">
-            Quality information provided to you, so you can make the smart choice.
-          </p>
+          <h2 className="info-title">{tr.row1Title}</h2>
+          <p className="info-text">{tr.row1Text}</p>
 
-          <Link href="/buy" type="button" className="info-button">
-            Get started
+          <Link href="/contact" type="button" className="info-button">
+            {tr.row1Btn}
           </Link>
         </div>
       </div>
@@ -55,19 +57,15 @@ export default function InfoSections() {
       {/* Part 2 */}
       <div className="info-row info-row--second">
         <div className="info-content">
-          <h2 className="info-title">Get Local Info</h2>
-          <p className="info-text">
-            Get important local information on the area you&apos;re most interested
-            in.
-          </p>
+          <h2 className="info-title">{tr.row2Title}</h2>
+          <p className="info-text">{tr.row2Text}</p>
 
-          {/* Wrap in a form so Enter submits */}
           <form className="local-search" onSubmit={onSubmitLocalSearch}>
             <input
               className="local-input"
               value={localQuery}
               onChange={(e) => setLocalQuery(e.target.value)}
-              placeholder="Type a location (e.g. Split, Zadar...)"
+              placeholder={tr.row2Placeholder}
             />
 
             <button
@@ -80,7 +78,6 @@ export default function InfoSections() {
               ×
             </button>
 
-            {/* Submit button triggers the same handler */}
             <button type="submit" className="local-go" aria-label="Search">
               <span className="searchicon" aria-hidden="true">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />

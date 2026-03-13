@@ -4,6 +4,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 type Option = { label: string; value: string };
 
@@ -32,13 +34,16 @@ function toIntOrNull(v: string | null) {
 }
 
 export default function PropertySearch() {
+  const { lang } = useLang();
+  const tr = translations[lang].propertySearch;
+
   const router = useRouter();
   const pathname = usePathname();
   const sp = useSearchParams();
 
   const regions: Option[] = useMemo(
     () => [
-      { label: "All", value: "all" },
+      { label: tr.all, value: "all" },
       { label: "Zadarska županija", value: "zadarska" },
       { label: "Splitsko-dalmatinska županija", value: "splitsko-dalmatinska" },
       { label: "Dubrovačko-neretvanska županija", value: "dubrovacko-neretvanska" },
@@ -65,29 +70,15 @@ export default function PropertySearch() {
   );
 
   const propertyTypes: Option[] = useMemo(
-    () => [
-      { label: "House / Villa", value: "house-villa" },
-      { label: "Apartment", value: "apartment" },
-      { label: "Land plot", value: "land" },
-      { label: "Business premises", value: "business" },
-      { label: "Hotel", value: "hotel" },
-      { label: "Investments", value: "investments" },
-      { label: "Off Plan", value: "off-plan" },
-      { label: "New build", value: "new-build" },
-      { label: "Luxury", value: "luxury" },
-    ],
-    []
+    () => tr.propertyTypes,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lang]
   );
 
   const advantages: Option[] = useMemo(
-    () => [
-      { label: "Sea view", value: "sea-view" },
-      { label: "Pool", value: "pool" },
-      { label: "Newly built", value: "newly-built" },
-      { label: "Stone house", value: "stone-house" },
-      { label: "Luxury", value: "luxury" },
-    ],
-    []
+    () => tr.advantageOptions,
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [lang]
   );
 
   // Main filters
@@ -162,10 +153,10 @@ export default function PropertySearch() {
 
   const propertyTypeDisplay =
     selectedTypes.length === 0
-      ? "Select"
+      ? tr.selectPlaceholder
       : selectedTypes.length === 1
-      ? propertyTypes.find((p) => p.value === selectedTypes[0])?.label ?? "Selected"
-      : `${selectedTypes.length} selected`;
+      ? propertyTypes.find((p) => p.value === selectedTypes[0])?.label ?? tr.selectPlaceholder
+      : `${selectedTypes.length} ${tr.selected}`;
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -283,7 +274,7 @@ export default function PropertySearch() {
         <div className="searchgrid">
           {/* Property type */}
           <div className="field" ref={typeRef}>
-            <div className="label">Property type</div>
+            <div className="label">{tr.propertyTypeLabel}</div>
 
             <button
               type="button"
@@ -302,7 +293,7 @@ export default function PropertySearch() {
             {typeOpen && (
             <div className="dropdown">
               <div className="dropdown-scroll">
-                <div className="dropdown-section-title">Property type</div>
+                <div className="dropdown-section-title">{tr.dropdownSectionTitle}</div>
 
                 {propertyTypes.map((opt) => (
                   <label key={opt.value} className="checkrow">
@@ -318,10 +309,10 @@ export default function PropertySearch() {
 
               <div className="dropdown-actions">
                 <button type="button" className="btn-ghost" onClick={clearDropdown}>
-                  Clear
+                  {tr.clear}
                 </button>
                 <button type="button" className="btn-solid" onClick={applyDropdown}>
-                  Apply
+                  {tr.apply}
                 </button>
               </div>
             </div>
@@ -331,9 +322,9 @@ export default function PropertySearch() {
           {/* Region */}
           <div className="field">
             <div className="label">
-              Region <span className="muted">–</span>{" "}
+              {tr.regionLabel} <span className="muted">–</span>{" "}
               <button type="button" className="linklike" onClick={() => console.log("See map")}>
-                See map
+                {tr.seeMap}
               </button>
             </div>
             <select className="control" value={region} onChange={(e) => setRegion(e.target.value)}>
@@ -347,23 +338,23 @@ export default function PropertySearch() {
 
           {/* Location */}
           <div className="field">
-            <div className="label">Location</div>
+            <div className="label">{tr.locationLabel}</div>
             <input
               className="control"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
-              placeholder="Type a location..."
+              placeholder={tr.locationPlaceholder}
             />
           </div>
 
           {/* Search button */}
           <div className="field field-searchbtn">
-            <div className="label label-hidden">Search</div>
+            <div className="label label-hidden">{tr.search}</div>
             <button type="button" className="searchbtn" onClick={onSearch}>
               <span className="searchicon" aria-hidden="true">
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
               </span>
-              Search
+              {tr.search}
             </button>
           </div>
         </div>
@@ -379,7 +370,7 @@ export default function PropertySearch() {
             <span className={`advchev ${advancedOpen ? "open" : ""}`} aria-hidden="true">
               ▾
             </span>
-            Advanced search
+            {tr.advancedSearch}
           </button>
         </div>
 
@@ -389,7 +380,7 @@ export default function PropertySearch() {
             <div className="advanced-grid">
               {/* Price range */}
               <div className="adv-block">
-                <div className="label">Price range</div>
+                <div className="label">{tr.priceRange}</div>
 
                 <div className="sliderrow">
                   <div
@@ -472,13 +463,13 @@ export default function PropertySearch() {
 
               {/* Bedrooms */}
               <div className="adv-block">
-                <div className="label">Number of bedrooms</div>
+                <div className="label">{tr.bedroomsLabel}</div>
                 <select
                   className="control"
                   value={bedrooms}
                   onChange={(e) => setBedrooms(e.target.value)}
                 >
-                  <option value="all">All</option>
+                  <option value="all">{tr.all}</option>
                   <option value="1">1+</option>
                   <option value="2">2+</option>
                   <option value="3">3+</option>
@@ -489,7 +480,7 @@ export default function PropertySearch() {
 
               {/* Advantages */}
               <div className="adv-block">
-                <div className="label">Advantages</div>
+                <div className="label">{tr.advantages}</div>
                 <div className="adv-checks">
                   {advantages.map((opt) => (
                     <label key={opt.value} className="checkrow">
@@ -512,7 +503,7 @@ export default function PropertySearch() {
             </div>
 
             <button type="button" className="reset" onClick={resetAll}>
-              Reset all filters
+              {tr.resetAll}
             </button>
           </div>
         )}

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import { LanguageProvider } from "../context/LanguageContext";
 
 
 const geistSans = Geist({
@@ -29,12 +30,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-      
-        className={`${serif.className} ${sans.className}`}
-      >
-        <Navbar />
-        {children}
+      <body className={`${serif.className} ${sans.className}`}>
+        <LanguageProvider>
+          <Navbar />
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

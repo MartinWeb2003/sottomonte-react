@@ -1,40 +1,39 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import SpotlightCard from "../../components/SpotlightCard";
-import BlurText from "../../components/BlurText";
 import WhereToFindUs from "@/components/WhereToFindUs";
 import Footer from "../../components/Footer";
-
+import { useLang } from "../../context/LanguageContext";
+import { translations } from "../../lib/translations";
 
 export default function AboutPage() {
+  const { lang } = useLang();
+  const tr = translations[lang].aboutPage;
+
   return (
     <main className="aboutpage">
       {/* HERO */}
       <section className="aboutpage-hero">
         <div className="aboutpage-hero-inner">
           <div className="aboutpage-hero-left">
-            <h1 className="aboutpage-title">About Sottomonte</h1>
+            <h1 className="aboutpage-title">{tr.heroTitle}</h1>
 
-            <p className="aboutpage-lead">
-              Sottomonte is a real estate team focused on Croatia’s most desirable
-              coastal and lifestyle destinations. We combine local insight with a modern,
-              transparent approach. With us every client feels confident, from the first call
-              to the final signature.
-            </p>
+            <p className="aboutpage-lead">{tr.heroLead}</p>
 
             <div className="aboutpage-hero-actions">
               <Link type="button" href="/contact" className="aboutpage-btn">
-                Contact us
+                {tr.getInTouch}
               </Link>
 
               <Link className="aboutpage-link" href="/buy">
-                Browse listings
+                {tr.viewOpportunities}
               </Link>
             </div>
           </div>
 
           <div className="aboutpage-hero-right" aria-hidden="true">
-            {/* Add your image: public/about/about-hero.jpg */}
             <Image
               src="/about/about2.jpg"
               alt="Sottomonte"
@@ -50,99 +49,66 @@ export default function AboutPage() {
       {/* STORY */}
       <section className="aboutpage-story">
         <div className="aboutpage-story-inner">
-          <h2 className="aboutpage-h2">A modern approach to Croatian real estate</h2>
+          <h2 className="aboutpage-h2">{tr.storyTitle}</h2>
 
           <div className="aboutpage-story-grid">
-            <p className="aboutpage-p">
-              We built Sottomonte around three core principles: expert market knowledge,
-              strategic pricing, and clear communication. Whether you’re buying your first home,
-              upgrading, or investing, you deserve guidance that’s honest, responsive, and based
-              on real data.
-            </p>
+            <p className="aboutpage-p">{tr.storyP1}</p>
 
-            <p className="aboutpage-p">
-              Our team works across key regions, carefully selecting
-              properties, verifying details, and helping clients move quickly when the right
-              opportunity appears. We handle the complex parts so the process feels simple.
-            </p>
+            <p className="aboutpage-p">{tr.storyP2}</p>
           </div>
 
           <div className="aboutpage-benefits">
-  <SpotlightCard className="aboutpage-benefit aboutpage-benefit-a">
-    <div className="benefit-top">
-      <div className="benefit-label">Local Market</div>
-    </div>
+            <SpotlightCard className="aboutpage-benefit aboutpage-benefit-a">
+              <div className="benefit-top">
+                <div className="benefit-label">{tr.benefit1Label}</div>
+              </div>
+              <div className="benefit-title">{tr.benefit1Title}</div>
+              <p className="benefit-text">{tr.benefit1Text}</p>
+            </SpotlightCard>
 
-    <div className="benefit-title">Expert market knowledge</div>
-    <p className="benefit-text">
-      Neighborhood-level insights, true pricing context, and guidance shaped by what actually sells.
-    </p>
+            <SpotlightCard className="aboutpage-benefit aboutpage-benefit-b">
+              <div className="benefit-top">
+                <div className="benefit-label">{tr.benefit2Label}</div>
+              </div>
+              <div className="benefit-title">{tr.benefit2Title}</div>
+              <p className="benefit-text">{tr.benefit2Text}</p>
+            </SpotlightCard>
 
-  </SpotlightCard>
+            <SpotlightCard className="aboutpage-benefit aboutpage-benefit-c">
+              <div className="benefit-top">
+                <div className="benefit-label">{tr.benefit3Label}</div>
+              </div>
+              <div className="benefit-title">{tr.benefit3Title}</div>
+              <p className="benefit-text">{tr.benefit3Text}</p>
+            </SpotlightCard>
 
-  <SpotlightCard className="aboutpage-benefit aboutpage-benefit-b">
-    <div className="benefit-top">
-      <div className="benefit-label">Pricing</div>
-    </div>
-
-    <div className="benefit-title">Strategic pricing</div>
-    <p className="benefit-text">
-      A data-backed approach to position your property competitively and maximize outcomes.
-    </p>
-
-  </SpotlightCard>
-
-  <SpotlightCard className="aboutpage-benefit aboutpage-benefit-c">
-    <div className="benefit-top">
-      <div className="benefit-label">Updates</div>
-    </div>
-
-    <div className="benefit-title">Clear communication</div>
-    <p className="benefit-text">
-      Transparent updates, fast responses, and a simple process. You always know what’s next.
-    </p>  
-  </SpotlightCard>
-
-  <SpotlightCard className="aboutpage-benefit aboutpage-benefit-d">
-    <div className="benefit-top">
-      <div className="benefit-label">Support</div>
-    </div>
-
-    <div className="benefit-title">End-to-end guidance</div>
-    <p className="benefit-text">
-      From viewings and negotiation to due diligence, we guide you through every step.
-    </p>
-
-  </SpotlightCard>
-</div>
-
+            <SpotlightCard className="aboutpage-benefit aboutpage-benefit-d">
+              <div className="benefit-top">
+                <div className="benefit-label">{tr.benefit4Label}</div>
+              </div>
+              <div className="benefit-title">{tr.benefit4Title}</div>
+              <p className="benefit-text">{tr.benefit4Text}</p>
+            </SpotlightCard>
+          </div>
         </div>
       </section>
-
 
       {/* SPLIT */}
       <section className="aboutpage-split">
         <div className="aboutpage-split-inner">
           <div className="aboutpage-split-left">
-            <h2 className="aboutpage-h2">Why clients choose Sottomonte</h2>
+            <h2 className="aboutpage-h2">{tr.splitTitle}</h2>
 
-            <p className="aboutpage-p">
-              We are a customer-first agency. We keep our focus directed so we can be fast, careful,
-              and fully present for each client. In short, that means better support for you.
-            </p>
+            <p className="aboutpage-p">{tr.splitP1}</p>
 
-            <p className="aboutpage-p">
-              From viewings and negotiation down to the research, we will guide you through every step with
-              clarity and confidence. Our goal is a smooth process and a result you will feel great about.
-            </p>
+            <p className="aboutpage-p">{tr.splitP2}</p>
 
             <Link type="button" href="/contact" className="aboutpage-btn">
-              Work with us
+              {tr.workBtn}
             </Link>
           </div>
 
           <div className="aboutpage-split-right" aria-hidden="true">
-            {/* Add your image: public/about/about-split.jpg */}
             <Image
               src="/about/about.jpg"
               alt="Sottomonte"
@@ -153,21 +119,21 @@ export default function AboutPage() {
           </div>
         </div>
       </section>
-    <WhereToFindUs />
+
+      <WhereToFindUs />
 
       {/* FINAL CTA */}
       <section className="aboutpage-cta">
         <div className="aboutpage-cta-inner">
-          <h2 className="aboutpage-cta-title">Ready to get started?</h2>
-          <p className="aboutpage-cta-text">
-            Contact us and let's find your own piece of paradise.
-          </p>
+          <h2 className="aboutpage-cta-title">{tr.ctaTitle}</h2>
+          <p className="aboutpage-cta-text">{tr.ctaText}</p>
           <Link type="button" href="/contact" className="aboutpage-btn">
-            Contact us
+            {tr.ctaBtn}
           </Link>
         </div>
       </section>
-      <Footer/>
+
+      <Footer />
     </main>
-  );  
+  );
 }

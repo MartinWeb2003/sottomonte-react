@@ -21,7 +21,9 @@ export default function HomePage() {
       </Suspense>
       <InfoSections />
       <IntroBlurb />
-      <RecentlyListed />
+      <Suspense fallback={null}>
+        <RecentlyListed />
+      </Suspense>
       <AboutSplit />
       <FinalCTA />
       <Footer />

@@ -1,9 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import SellHeroBackgroundSlider from "../../components/SellHeroBackgroundSlider";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHouse, faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useLang } from "../../context/LanguageContext";
+import { translations } from "../../lib/translations";
 
 export default function SellPage() {
+  const { lang } = useLang();
+  const tr = translations[lang].sellPage;
+
   return (
     <main className="sellPage">
       {/* HERO SLIDER */}
@@ -12,9 +19,7 @@ export default function SellPage() {
 
         <div className="sellHeroContent">
           <h1 className="sellHeroTitle">
-            <span className="sellHeroTitleLine">A refined</span>
-            <span className="sellHeroTitleLine">Approach to</span>
-            <span className="sellHeroTitleLine">Selling.</span>
+            <span className="sellHeroTitleLine">{tr.heroTitle}</span>
           </h1>
         </div>
       </section>
@@ -22,26 +27,22 @@ export default function SellPage() {
       {/* SELL INTRO (SEO + conversion) */}
       <section className="sellIntroSection">
         <div className="sellIntroInner">
-          <h2 className="sellIntroHeadline">Looking to Sell Property on the Adriatic Coast?</h2>
+          <h2 className="sellIntroHeadline">{tr.introHeadline}</h2>
 
-          <p className="sellIntroSubtext">
-            Our experienced team specializes in marketing and selling premium homes, villas, apartments, and land across
-            Croatia’s most desirable coastal locations. From valuation to closing, we manage every detail discreetly and
-            professionally.
-          </p>
+          <p className="sellIntroSubtext">{tr.introSubtext}</p>
 
           <div className="sellIntroTrust" aria-label="Trust highlights">
             <div className="sellIntroTrustItem">
               <span className="sellIntroCheck" aria-hidden="true">✓</span>
-              Local market expertise
+              {tr.trust1}
             </div>
             <div className="sellIntroTrustItem">
               <span className="sellIntroCheck" aria-hidden="true">✓</span>
-              Personalized service
+              {tr.trust2}
             </div>
             <div className="sellIntroTrustItem">
               <span className="sellIntroCheck" aria-hidden="true">✓</span>
-              Professional property marketing
+              {tr.trust3}
             </div>
           </div>
 
@@ -51,11 +52,9 @@ export default function SellPage() {
                 <div className="sellIntroChoiceIcon" aria-hidden="true">
                   <FontAwesomeIcon icon={faHouse} />
                 </div>
-                <h3 className="sellIntroChoiceTitle">Sell Your Property</h3>
+                <h3 className="sellIntroChoiceTitle">{tr.card1Title}</h3>
               </div>
-              <p className="sellIntroChoiceText">
-                Get a clear, data-driven valuation and a tailored marketing plan designed to attract qualified buyers.
-              </p>
+              <p className="sellIntroChoiceText">{tr.card1Text}</p>
             </div>
 
             <div className="sellIntroChoiceCard sellIntroChoiceCardAlt">
@@ -63,11 +62,9 @@ export default function SellPage() {
                 <div className="sellIntroChoiceIcon" aria-hidden="true">
                   <FontAwesomeIcon icon={faMagnifyingGlass} />
                 </div>
-                <h3 className="sellIntroChoiceTitle">Looking to Buy?</h3>
+                <h3 className="sellIntroChoiceTitle">{tr.card2Title}</h3>
               </div>
-              <p className="sellIntroChoiceText">
-                Explore curated listings across Croatia’s coastline — villas, apartments, and standout investment options.
-              </p>
+              <p className="sellIntroChoiceText">{tr.card2Text}</p>
             </div>
           </div>
         </div>
@@ -76,19 +73,17 @@ export default function SellPage() {
       {/* READY TO GET STARTED */}
       <section className="sellReady">
         <div className="sellReadyInner">
-          <h2 className="sellReadyTitle">Ready to get started?</h2>
+          <h2 className="sellReadyTitle">{tr.readyTitle}</h2>
 
-          <p className="sellReadyText">
-            Reach out to us directly, or take a look at what’s available now.
-          </p>
+          <p className="sellReadyText">{tr.readyText}</p>
 
           <div className="sellReadyButtons">
             <Link href="/contact" className="sellBtn sellBtnPrimary">
-              Contact us
+              {tr.bookBtn}
             </Link>
 
             <Link href="/buy" className="sellBtn sellBtnSecondary">
-              Browse listings
+              {tr.browseBtn}
             </Link>
           </div>
         </div>

@@ -1,33 +1,28 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 export default function AboutSplit() {
+  const { lang } = useLang();
+  const tr = translations[lang].aboutSplit;
+
   return (
     <section className="aboutsplit">
       <div className="aboutsplit-inner">
         <div className="aboutsplit-left">
-          <h2 className="aboutsplit-title">About Sottomonte</h2>
+          <h2 className="aboutsplit-title">{tr.title}</h2>
 
-          <p className="aboutsplit-lead">
-            Sottomonte is built on local expertise, honest guidance, and a deep
-            understanding of Croatia’s most desirable coastal and inland markets.
-          </p>
+          <p className="aboutsplit-lead">{tr.lead}</p>
 
-          <p className="aboutsplit-text">
-            We work closely with buyers, sellers, and investors to find the right
-            opportunities and present them with clarity and confidence. From first
-            conversations to final signatures, our team focuses on strong market
-            insight, strategic positioning, and a seamless experience.
-          </p>
+          <p className="aboutsplit-text">{tr.text1}</p>
 
-          <p className="aboutsplit-text">
-            Whether you’re looking for a luxury villa, a family home, or a smart
-            investment, we combine careful selection with consistent communication
-            so you always know what to expect — and what comes next.
-          </p>
+          <p className="aboutsplit-text">{tr.text2}</p>
 
           <Link href="/about" type="button" className="aboutsplit-btn">
-            LEARN MORE
+            {tr.btn}
           </Link>
         </div>
 

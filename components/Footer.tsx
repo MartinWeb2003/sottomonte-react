@@ -1,7 +1,14 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 export default function Footer() {
+  const { lang } = useLang();
+  const tr = translations[lang].footer;
+
   return (
     <footer className="footer">
       <div className="footer-inner">
@@ -16,25 +23,22 @@ export default function Footer() {
               />
             </div>
 
-            <p className="footer-desc">
-              Sottomonte connects buyers and sellers with exceptional properties
-              across Croatia’s most desirable coastal and inland locations.
-            </p>
+            <p className="footer-desc">{tr.desc}</p>
           </div>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-heading">Navigation</h4>
+          <h4 className="footer-heading">{tr.navHeading}</h4>
           <ul className="footer-links">
-            <li><Link href="/buy">Buy</Link></li>
-            <li><Link href="/sell">Sell</Link></li>
-            <li><Link href="/about">About us</Link></li>
-            <li><Link href="/contact">Contact us</Link></li>
+            <li><Link href="/buy">{tr.buy}</Link></li>
+            <li><Link href="/sell">{tr.sell}</Link></li>
+            <li><Link href="/about">{tr.about}</Link></li>
+            <li><Link href="/contact">{tr.contact}</Link></li>
           </ul>
         </div>
 
         <div className="footer-col">
-          <h4 className="footer-heading">Contact</h4>
+          <h4 className="footer-heading">{tr.contactHeading}</h4>
           <ul className="footer-contact">
             <li>info@sottomonte.hr</li>
             <li>+385 00 000 000</li>

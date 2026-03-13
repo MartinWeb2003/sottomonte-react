@@ -2,50 +2,19 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-
-type Slide = {
-  imageSrc: string;
-  town: "Zadar" | "Split" | "Dubrovnik" | "Viganj";
-  subtitle: string; // the text after the dash
-  title: string; // ✅ cycles too
-  ctaHref: string;
-};
+import { useEffect, useRef, useState } from "react";
+import { useLang } from "../context/LanguageContext";
+import { translations } from "../lib/translations";
 
 export default function HeroSlider() {
-  const slides: Slide[] = useMemo(
-    () => [
-      {
-        imageSrc: "/hero/zadar.jpg",
-        town: "Zadar",
-        subtitle: "Zadar area - Dalmatia coast",
-        title: "Luxury Villas",
-        ctaHref: "/buy",
-      },
-      {
-        imageSrc: "/hero/split.jpg",
-        town: "Split",
-        subtitle: "Split area - Dalmatia coast",
-        title: "Premium Apartments",
-        ctaHref: "/buy",
-      },
-      {
-        imageSrc: "/hero/dubrovnik.jpg",
-        town: "Dubrovnik",
-        subtitle: "Dubrovnik area - Dalmatia coast",
-        title: "Multi-family Homes",
-        ctaHref: "/buy",
-      },
-      {
-        imageSrc: "/hero/viganj.jpg",
-        town: "Viganj",
-        subtitle: "Pelješac peninsula - Dalmatia coast",
-        title: "Modern Townhouses",
-        ctaHref: "/buy",
-      },
-    ],
-    []
-  );
+  const { lang } = useLang();
+  const tr = translations[lang].hero;
+
+  const slides = tr.slides.map((s, i) => ({
+    ...s,
+    imageSrc: ["/hero/zadar.jpg", "/hero/split.jpg", "/hero/dubrovnik.jpg", "/hero/viganj.jpg"][i],
+    ctaHref: "/buy",
+  }));
 
   const [active, setActive] = useState(0);
   const timerRef = useRef<number | null>(null);
@@ -112,12 +81,11 @@ export default function HeroSlider() {
           <span className="hero-subtitle">{current.subtitle}</span>
         </div>
 
-        {/* ✅ Cycled title */}
         <h1 className="hero-title">{current.title}</h1>
 
         <div className="hero-actions">
           <Link className="hero-cta" href={current.ctaHref}>
-            View more
+            {tr.viewMore}
           </Link>
         </div>
       </div>
