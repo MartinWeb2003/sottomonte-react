@@ -66,6 +66,12 @@ body {
   backdrop-filter: blur(8px);
 }
 
+/* Collapse gradient tail when mobile menu is open */
+.navbar:has(.navbar-inner--menu-open) {
+  height: auto;
+  background: transparent;
+}
+
 
 /* LOGO */
 .navbar-logo {
