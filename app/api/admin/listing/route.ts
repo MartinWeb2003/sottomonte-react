@@ -47,9 +47,7 @@ export async function GET() {
   }
   try {
     const listings = await writeClient.fetch(
-      `*[_type == "listing"] | order(listedAt desc) { ${ADMIN_LISTING_FIELDS} }`,
-      {},
-      { cache: "no-store" } as RequestInit
+      `*[_type == "listing"] | order(listedAt desc) { ${ADMIN_LISTING_FIELDS} }`
     );
     return NextResponse.json(listings);
   } catch (err) {
