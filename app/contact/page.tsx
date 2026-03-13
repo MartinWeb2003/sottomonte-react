@@ -97,7 +97,7 @@ export default function ContactPage() {
               <span className="contact-ico" aria-hidden="true">
                 <FontAwesomeIcon icon={faPhone} />
               </span>
-              <a href="tel:+385000000000">+385 00 000 000</a>
+              <a href="tel:+385000000000">+385 98 589 235</a>
             </div>
           </div>
         </div>

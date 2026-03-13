@@ -41,8 +41,8 @@ export default function Footer() {
           <h4 className="footer-heading">{tr.contactHeading}</h4>
           <ul className="footer-contact">
             <li>info@sottomonte.hr</li>
-            <li>+385 00 000 000</li>
-            <li>Zadar, Croatia</li>
+            <li>+385 98 589 235</li>
+            <li>Orebic, Croatia</li>
           </ul>
         </div>
       </div>
