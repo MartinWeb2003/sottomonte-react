@@ -73,7 +73,7 @@ export default function Navbar() {
     window.innerWidth <= MOBILE_BREAKPOINT;
 
   return (
-    <header className={`navbar ${navHidden ? "navbar--hidden" : ""}`} ref={navRef}>
+    <header className={`navbar ${navHidden ? "navbar--hidden" : ""} ${menuOpen ? "navbar--menu-open" : ""}`} ref={navRef}>
       <nav className={`navbar-inner ${menuOpen ? "navbar-inner--menu-open" : ""}`}>
         <Link href="/" className="navbar-logo" onClick={() => setMenuOpen(false)}>
           <Image
