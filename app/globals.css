@@ -3279,8 +3279,19 @@ select.control {
     gap: 40px;
   }
 
+  .contact-title {
+    font-size: 3.5rem;
+  }
+
   .contact-text {
     max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-title {
+    font-size: 2.6rem;
+    max-width: 85vw;
   }
 }
 
@@ -3761,6 +3772,7 @@ select.control {
   height: 70vh;
   display: flex;
   align-items: center;
+  margin-top: 60px;
   justify-content: center;
   padding: clamp(24px, 5vw, 64px);
   background-color: white;
@@ -4086,6 +4098,8 @@ h3.sellIntroChoiceTitle {
   .navbar {
     width: 100%;
     max-width: 100%;
+  }
+  .navbar-inner {
     overflow-x: clip;
   }
   .aboutpage-btn{
