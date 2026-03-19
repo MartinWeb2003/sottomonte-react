@@ -22,8 +22,8 @@ export const metadata: Metadata = {
   title: "Sottomonte - Real Estate",
   description: "Luxury real estate in Croatia. Find your perfect property with Sottomonte.",
   icons: {
-    icon: "/SottomonteB_NE3.jpg",
-    apple: "/SottomonteB_NE3.jpg",
+    icon: "/SottomonteB_NE4.png",
+    apple: "/SottomonteB_NE4.png",
   },
 };
 
