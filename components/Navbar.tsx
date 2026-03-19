@@ -96,8 +96,9 @@ export default function Navbar() {
 
         <div className="navbar-right">
           <button className="lang-toggle" onClick={toggleLang} type="button">
-            <span className="lang-full">{tr.langFull}</span>
-            <span className="lang-short">{tr.langShort}</span>
+            <span className={lang === "en" ? "lang-option lang-option--active" : "lang-option"}>EN</span>
+            <span className="lang-divider">|</span>
+            <span className={lang === "hr" ? "lang-option lang-option--active" : "lang-option"}>HR</span>
           </button>
 
           <button

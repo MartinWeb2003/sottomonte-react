@@ -146,17 +146,30 @@ body {
 }
 
 .lang-toggle {
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  padding: 6px 12px;
-  border-radius: 999px;
-  color: white;
+  background: transparent;
+  border: none;
+  padding: 4px 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
   cursor: pointer;
+  font-size: 13px;
   font-weight: 600;
+  letter-spacing: 0.05em;
 }
 
-.lang-short {
-  display: none;
+.lang-option {
+  color: rgba(255, 255, 255, 0.45);
+  transition: color 0.2s;
+}
+
+.lang-option--active {
+  color: #c9ad7b;
+}
+
+.lang-divider {
+  color: rgba(255, 255, 255, 0.25);
+  font-weight: 300;
 }
 
 /* Hamburger */
@@ -204,13 +217,6 @@ body {
   }
 
 
-  .lang-full {
-    display: none;
-  }
-
-  .lang-short {
-    display: inline;
-  }
 
 }
 
@@ -4144,10 +4150,6 @@ h3.sellIntroChoiceTitle {
     flex-shrink: 0;
   }
 
-  .lang-toggle {
-    padding: 4px 8px;
-    font-size: 12px;
-  }
 
   .hamburger {
     font-size: 22px;
