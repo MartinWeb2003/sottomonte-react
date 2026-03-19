@@ -19,8 +19,12 @@ const serif = Playfair_Display({ subsets: ["latin"] });
 const sans = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sottomonte — Real Estate",
+  title: "Sottomonte - Real Estate",
   description: "Luxury real estate in Croatia. Find your perfect property with Sottomonte.",
+  icons: {
+    icon: "/SottomonteB_NE3.jpg",
+    apple: "/SottomonteB_NE3.jpg",
+  },
 };
 
 export default function RootLayout({
