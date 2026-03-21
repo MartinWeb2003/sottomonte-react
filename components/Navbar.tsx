@@ -92,6 +92,7 @@ export default function Navbar() {
           <Link href="/sell">{tr.sell}</Link>
           <Link href="/about">{tr.about}</Link>
           <Link href="/contact">{tr.contact}</Link>
+          <a href="https://www.visit-eva-orebic.com" target="_blank" rel="noopener noreferrer">{tr.accommodation}</a>
         </div>
 
         <div className="navbar-right">
@@ -120,6 +121,7 @@ export default function Navbar() {
           <Link href="/sell" onClick={() => setMenuOpen(false)}>{tr.sell}</Link>
           <Link href="/about" onClick={() => setMenuOpen(false)}>{tr.about}</Link>
           <Link href="/contact" onClick={() => setMenuOpen(false)}>{tr.contact}</Link>
+          <a href="https://www.visit-eva-orebic.com" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>{tr.accommodation}</a>
         </div>
       )}
     </header>
