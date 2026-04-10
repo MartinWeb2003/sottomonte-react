@@ -11,25 +11,26 @@ export default function Footer() {
 
   return (
     <footer className="footer">
-      <div className="footer-inner">
-        <div className="footer-col footer-brand">
-          <div className="footer-brand-row">
-            <div className="footer-logo">
-              <Image
-                src="/Sottomonte_wt.png"
-                alt="Sottomonte"
-                width={90}
-                height={90}
-              />
-            </div>
 
-            <p className="footer-desc">{tr.desc}</p>
-          </div>
+      {/* ── MAIN CONTENT ── */}
+      <div className="footer-main">
+        <div className="footer-brand-col">
+          <Link href="/" className="footer-logo-link">
+            <Image
+              src="/Sottomonte_wt.png"
+              alt="Sottomonte"
+              width={120}
+              height={120}
+              className="footer-logo-img"
+            />
+          </Link>
+          <p className="footer-tagline">The Pelješac Specialists</p>
+          <p className="footer-desc">{tr.desc}</p>
         </div>
 
-        <div className="footer-col">
-          <h4 className="footer-heading">{tr.navHeading}</h4>
-          <ul className="footer-links">
+        <div className="footer-links-col">
+          <h4 className="footer-col-heading">{tr.navHeading}</h4>
+          <ul className="footer-nav">
             <li><Link href="/buy">{tr.buy}</Link></li>
             <li><Link href="/sell">{tr.sell}</Link></li>
             <li><Link href="/about">{tr.about}</Link></li>
@@ -37,19 +38,28 @@ export default function Footer() {
           </ul>
         </div>
 
-        <div className="footer-col">
-          <h4 className="footer-heading">{tr.contactHeading}</h4>
-          <ul className="footer-contact">
-            <li>info@sottomonte.hr</li>
-            <li>+385 98 589 235</li>
-            <li>Orebic, Croatia</li>
+        <div className="footer-contact-col">
+          <h4 className="footer-col-heading">{tr.contactHeading}</h4>
+          <ul className="footer-contact-list">
+            <li>
+              <a href="mailto:info@sottomonte.hr">info@sottomonte.hr</a>
+            </li>
+            <li>
+              <a href="tel:+38598589235">+385 98 589 235</a>
+            </li>
+            <li>Orebić, Pelješac</li>
           </ul>
         </div>
       </div>
 
-      <div className="footer-bottom">
-        © {new Date().getFullYear()} Sottomonte Real Estate. All rights reserved.
+      {/* ── BOTTOM BAR ── */}
+      <div className="footer-bottom-bar">
+        <span className="footer-copyright">
+          © {new Date().getFullYear()} Sottomonte Real Estate
+        </span>
+        <span className="footer-bottom-location">Orebić, Croatia</span>
       </div>
+
     </footer>
   );
 }

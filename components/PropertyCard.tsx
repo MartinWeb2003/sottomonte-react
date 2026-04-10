@@ -46,7 +46,7 @@ export default function PropertyCard({ property }: Props) {
       <div className="pcard-body">
         <div className="pcard-loc">
           <span className="pcard-city">{property.city}</span>
-          <span className="pcard-sep">–</span>
+          <span className="pcard-sep">,</span>
           <span className="pcard-region">{property.regionDisplay}</span>
         </div>
 

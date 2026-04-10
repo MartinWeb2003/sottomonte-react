@@ -18,7 +18,20 @@ export default function BlurText<T extends React.ElementType = "h2">({
 }: Props<T>) {
   const Component = (as ?? "h2") as React.ElementType;
 
-  const chars = useMemo(() => text.split(""), [text]);
+  // Split into words; each word is an array of chars with their global index for delay
+  const words = useMemo(() => {
+    const parts = text.split(" ");
+    let globalIndex = 0;
+    return parts.map((word) => {
+      const chars = word.split("").map((ch, localI) => ({
+        ch,
+        index: globalIndex + localI,
+      }));
+      globalIndex += word.length + 1; // +1 for the space
+      return chars;
+    });
+  }, [text]);
+
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -28,15 +41,30 @@ export default function BlurText<T extends React.ElementType = "h2">({
 
   return (
     <Component className={`blurtext ${className}`} aria-label={text} {...rest}>
-      {chars.map((ch, i) => (
-        <span
-          key={`${ch}-${i}`}
-          className={`blurtext-char ${ready ? "is-in" : ""}`}
-          style={{ transitionDelay: `${i * delayPerCharMs}ms` }}
-          aria-hidden="true"
-        >
-          {ch === " " ? "\u00A0" : ch}
-        </span>
+      {words.map((wordChars, wi) => (
+        <React.Fragment key={wi}>
+          <span style={{ whiteSpace: "nowrap", display: "inline" }}>
+            {wordChars.map(({ ch, index }) => (
+              <span
+                key={index}
+                className={`blurtext-char ${ready ? "is-in" : ""}`}
+                style={{ transitionDelay: `${index * delayPerCharMs}ms` }}
+                aria-hidden="true"
+              >
+                {ch}
+              </span>
+            ))}
+          </span>
+          {wi < words.length - 1 && (
+            <span
+              className={`blurtext-char ${ready ? "is-in" : ""}`}
+              style={{ transitionDelay: `${(wordChars[wordChars.length - 1]?.index ?? 0) * delayPerCharMs}ms` }}
+              aria-hidden="true"
+            >
+              {"\u00A0"}
+            </span>
+          )}
+        </React.Fragment>
       ))}
     </Component>
   );

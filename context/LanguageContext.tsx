@@ -15,11 +15,12 @@ const LanguageContext = createContext<LanguageContextValue>({
 });
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLang] = useState<Lang>("EN");
+  const [lang, setLang] = useState<Lang>("HR");
 
   useEffect(() => {
     const stored = localStorage.getItem("lang") as Lang | null;
-    if (stored === "HR" || stored === "EN") setLang(stored);
+    if (stored === "EN") setLang("EN");
+    // default is always HR — no need to set it explicitly
   }, []);
 
   const toggleLang = () => {

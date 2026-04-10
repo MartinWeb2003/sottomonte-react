@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faPhone } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faPhone, faLocationDot } from "@fortawesome/free-solid-svg-icons";
 import { useLang } from "../../context/LanguageContext";
 import { translations } from "../../lib/translations";
 
@@ -79,11 +79,14 @@ export default function ContactPage() {
   return (
     <main className="contact">
       <section className="contact-inner">
-        {/* LEFT */}
-        <div className="contact-left">
-          <h1 className="contact-title">{tr.title}</h1>
 
+        {/* LEFT — dark info panel */}
+        <div className="contact-left">
+          <p className="contact-eyebrow">{lang === "HR" ? "KONTAKT" : "CONTACT"}</p>
+          <h1 className="contact-title">{tr.title}</h1>
           <p className="contact-text">{tr.text}</p>
+
+          <div className="contact-divider" />
 
           <div className="contact-links">
             <div className="contact-link">
@@ -92,18 +95,27 @@ export default function ContactPage() {
               </span>
               <a href="mailto:hello@sottomonte.hr">hello@sottomonte.hr</a>
             </div>
-
             <div className="contact-link">
               <span className="contact-ico" aria-hidden="true">
                 <FontAwesomeIcon icon={faPhone} />
               </span>
-              <a href="tel:+385000000000">+385 98 589 235</a>
+              <a href="tel:+38598589235">+385 98 589 235</a>
+            </div>
+            <div className="contact-link">
+              <span className="contact-ico" aria-hidden="true">
+                <FontAwesomeIcon icon={faLocationDot} />
+              </span>
+              <span>Orebić, Pelješac, Croatia</span>
             </div>
           </div>
         </div>
 
-        {/* RIGHT */}
+        {/* RIGHT — form panel */}
         <div className="contact-right">
+          <p className="contact-form-eyebrow">
+            {lang === "HR" ? "POŠALJITE PORUKU" : "SEND A MESSAGE"}
+          </p>
+
           <form className="contact-form" onSubmit={handleSubmit} noValidate>
             <div className="contact-row2">
               <label className="contact-field">
@@ -153,7 +165,7 @@ export default function ContactPage() {
             <label className="contact-field">
               <span>{tr.message}</span>
               <textarea
-                rows={7}
+                rows={6}
                 value={fields.message}
                 onChange={set("message")}
                 placeholder={tr.messagePlaceholder}
@@ -189,6 +201,7 @@ export default function ContactPage() {
             </button>
           </form>
         </div>
+
       </section>
     </main>
   );

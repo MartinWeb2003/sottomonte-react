@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Playfair_Display, Inter } from "next/font/google";
+import { Montserrat, Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
+import ScrollProgressBar from "../components/ScrollProgressBar";
 import { LanguageProvider } from "../context/LanguageContext";
 
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const heading = Montserrat({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-heading",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const body = Lato({
+  subsets: ["latin", "latin-ext"],
+  weight: ["300", "400", "700"],
+  variable: "--font-body",
 });
-
-const serif = Playfair_Display({ subsets: ["latin"] });
-const sans = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "Sottomonte - Real Estate",
@@ -34,8 +34,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${serif.className} ${sans.className}`}>
+      <body className={`${heading.variable} ${body.variable}`}>
         <LanguageProvider>
+          <ScrollProgressBar />
           <Navbar />
           {children}
         </LanguageProvider>

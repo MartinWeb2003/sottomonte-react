@@ -12,12 +12,13 @@ export default function HeroSlider() {
 
   const slides = tr.slides.map((s, i) => ({
     ...s,
-    imageSrc: ["/hero/zadar.jpg", "/hero/split.jpg", "/hero/dubrovnik.jpg", "/hero/viganj.jpg"][i],
+    imageSrc: ["/hero/viganj.jpg", "/hero/zadar.jpg", "/hero/split.jpg", "/hero/dubrovnik.jpg"][i],
     ctaHref: "/buy",
   }));
 
   const [active, setActive] = useState(0);
   const timerRef = useRef<number | null>(null);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
 
   const slideCount = slides.length;
 
@@ -44,6 +45,18 @@ export default function HeroSlider() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [slideCount]);
 
+  // Parallax scroll effect on hero image
+  useEffect(() => {
+    const handleScroll = () => {
+      const el = mediaRef.current;
+      if (!el) return;
+      const scrollY = window.scrollY;
+      el.style.transform = `translateY(${scrollY * 0.28}px)`;
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const onUserNav = (fn: () => void) => {
     fn();
     restartTimer();
@@ -53,7 +66,7 @@ export default function HeroSlider() {
 
   return (
     <section className="hero">
-      <div className="hero-media">
+      <div className="hero-media" ref={mediaRef}>
         {slides.map((s, i) => (
           <div
             key={s.imageSrc}
@@ -77,7 +90,7 @@ export default function HeroSlider() {
         <div className="hero-location">
           <LocationIcon />
           <span className="hero-town">{current.town}</span>
-          <span className="hero-dash">—</span>
+          <span className="hero-dash">,</span>
           <span className="hero-subtitle">{current.subtitle}</span>
         </div>
 

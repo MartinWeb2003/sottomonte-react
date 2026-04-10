@@ -3,22 +3,31 @@
 import Link from "next/link";
 import { useLang } from "../context/LanguageContext";
 import { translations } from "../lib/translations";
+import { useInView } from "../lib/useInView";
+import BlurText from "./BlurText";
 
 export default function IntroBlurb() {
   const { lang } = useLang();
   const tr = translations[lang].introBlurb;
+  const [ref, inView] = useInView<HTMLElement>(0.08);
 
   return (
-    <section className="introblurb">
+    <section className="introblurb" ref={ref}>
       <div className="introblurb-inner">
-        <h2 className="introblurb-title">{tr.title}</h2>
+        {inView && (
+          <BlurText
+            text={tr.title}
+            className="introblurb-title"
+            delayPerCharMs={22}
+          />
+        )}
 
-        <p className="introblurb-text">{tr.text}</p>
+        <p className={`introblurb-text reveal-up delay-2 ${inView ? "is-visible" : ""}`}>
+          {tr.text}
+        </p>
 
-        <div className="introblurb-cta">
-          <Link href="/contact" type="button" className="introblurb-button">
-            {tr.btn}
-          </Link>
+        <div className={`introblurb-cta reveal-up delay-3 ${inView ? "is-visible" : ""}`}>
+          <Link href="/contact" className="introblurb-button">{tr.btn}</Link>
         </div>
       </div>
     </section>
