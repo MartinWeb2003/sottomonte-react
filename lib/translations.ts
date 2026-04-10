@@ -23,7 +23,7 @@ export const translations = {
     },
     infoSections: {
       row1Title: "We've Seen Every Property. Personally.",
-      row1Text: "We don't do 'blind' listings. Every home on our site has been visited and verified by our team. When you ask a question about a villa in Viganj or a cottage in Ston, you're talking to someone who has actually stood on that soil and shaken the owner's hand.",
+      row1Text: "We don't do 'blind' listings. Evimage.pngery home on our site has been visited and verified by our team. When you ask a question about a villa in Viganj or a cottage in Ston, you're talking to someone who has actually stood on that soil and shaken the owner's hand.",
       row1Btn: "Get the Real Story",
       row2Title: "Tailored Real Estate Searches on Pelješac",
       row2Text: "We don't generalize. We provide a high-quality, personal service for a unique peninsula.",

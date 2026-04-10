@@ -895,6 +895,7 @@ select.control {
 
 .advtoggle {
   border: none;
+  outline: none;
   background: transparent;
   cursor: pointer;
   font-size: 18px;
@@ -902,12 +903,11 @@ select.control {
   color: #222;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 
 .advchev {
-  display: inline-block;
-  transform: rotate(0deg);
+  flex-shrink: 0;
   transition: transform 0.2s ease;
   opacity: 0.7;
 }

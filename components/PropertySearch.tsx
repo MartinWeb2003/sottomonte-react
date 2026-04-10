@@ -185,10 +185,17 @@ export default function PropertySearch() {
             onClick={() => setAdvancedOpen((p) => !p)}
             aria-expanded={advancedOpen}
           >
-            <span className={`advchev ${advancedOpen ? "open" : ""}`} aria-hidden="true">
-              ▾
-            </span>
             {tr.advancedSearch}
+            <svg
+              className={`advchev ${advancedOpen ? "open" : ""}`}
+              width="14"
+              height="14"
+              viewBox="0 0 14 14"
+              fill="none"
+              aria-hidden="true"
+            >
+              <path d="M2 4.5l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
           </button>
         </div>
 
