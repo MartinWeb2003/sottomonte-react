@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useLang } from "../context/LanguageContext";
@@ -30,12 +30,14 @@ function toIntOrNull(v: string | null) {
   return Number.isFinite(n) ? n : null;
 }
 
+function clamp(v: number, lo: number, hi: number) {
+  return Math.min(Math.max(v, lo), hi);
+}
+
 export default function PropertySearchInner() {
   const { lang } = useLang();
   const tr = translations[lang].propertySearch;
-
   const router = useRouter();
-  const sp = useSearchParams();
 
   const advantages: Option[] = useMemo(
     () => tr.advantageOptions,
@@ -52,7 +54,10 @@ export default function PropertySearchInner() {
   const [priceTouched, setPriceTouched] = useState(false);
   const [selectedAdvantages, setSelectedAdvantages] = useState<string[]>([]);
 
+  // Read params directly from window.location — no useSearchParams needed
   useEffect(() => {
+    const sp = new URLSearchParams(window.location.search);
+
     const qLocation = sp.get("location") ?? "";
     const qAdv = parseCSV(sp.get("adv"));
     const qBeds = sp.get("beds") ?? "all";
@@ -67,14 +72,13 @@ export default function PropertySearchInner() {
 
     const minN = toIntOrNull(sp.get("min"));
     const maxN = toIntOrNull(sp.get("max"));
-    const safeMin = minN != null ? Math.min(Math.max(minN, 0), MAX_PRICE) : 0;
-    const safeMax = maxN != null ? Math.min(Math.max(maxN, 0), MAX_PRICE) : MAX_PRICE;
+    const safeMin = minN != null ? clamp(minN, 0, MAX_PRICE) : 0;
+    const safeMax = maxN != null ? clamp(maxN, 0, MAX_PRICE) : MAX_PRICE;
 
     setMinSlider(Math.min(safeMin, safeMax));
     setMaxSlider(Math.max(safeMin, safeMax));
     setPriceTouched((qMin !== "" && Number(qMin) > 0) || (qMax !== "" && Number(qMax) > 0));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [sp]);
+  }, []);
 
   const resetAll = () => {
     setLocation("");
@@ -87,8 +91,6 @@ export default function PropertySearchInner() {
     setSelectedAdvantages([]);
     router.push("/buy");
   };
-
-  const clamp = (v: number, lo: number, hi: number) => Math.min(Math.max(v, lo), hi);
 
   const onMinSliderChange = (value: number) => {
     setPriceTouched(true);
@@ -110,9 +112,9 @@ export default function PropertySearchInner() {
     if (loc) params.set("location", loc);
     if (selectedAdvantages.length > 0) params.set("adv", selectedAdvantages.join(","));
     if (bedrooms !== "all") params.set("beds", bedrooms);
-    const minClean = minPrice.trim();
-    const maxClean = maxPrice.trim();
     if (priceTouched) {
+      const minClean = minPrice.trim();
+      const maxClean = maxPrice.trim();
       if (minClean && Number(minClean) > 0) params.set("min", String(Number(minClean)));
       if (maxClean && Number(maxClean) > 0) params.set("max", String(Number(maxClean)));
     }
@@ -158,7 +160,7 @@ export default function PropertySearchInner() {
                 <div
                   className="range"
                   style={{
-                    // @ts-expect-error -- CSS custom properties
+                    // @ts-expect-error CSS custom properties
                     "--min": `${(minSlider / MAX_PRICE) * 100}%`,
                     "--max": `${(maxSlider / MAX_PRICE) * 100}%`,
                   }}
