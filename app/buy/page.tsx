@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import PropertySearch from "../../components/PropertySearch";
 import PropertyCard from "../../components/PropertyCard";
 import Pagination from "../../components/Pagination";
@@ -94,9 +93,7 @@ export default async function BuyPage({
     <main className="buy">
       <BuyHero />
 
-      <Suspense fallback={null}>
-        <PropertySearch />
-      </Suspense>
+      <PropertySearch />
 
       <section className="buy-grid-section">
         <div className="buy-grid-inner">
