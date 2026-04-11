@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useLang } from "../context/LanguageContext";
@@ -21,10 +21,7 @@ const formatEUR = (n: number) =>
 
 function parseCSV(v: string | null) {
   if (!v) return [];
-  return v
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+  return v.split(",").map((s) => s.trim()).filter(Boolean);
 }
 
 function toIntOrNull(v: string | null) {
@@ -38,7 +35,6 @@ export default function PropertySearch() {
   const tr = translations[lang].propertySearch;
 
   const router = useRouter();
-  const pathname = usePathname();
   const sp = useSearchParams();
 
   const advantages: Option[] = useMemo(
@@ -47,19 +43,13 @@ export default function PropertySearch() {
     [lang]
   );
 
-  // Main filters
   const [location, setLocation] = useState("");
-
-  // Advanced
-  const [advancedOpen, setAdvancedOpen] = useState(false);
   const [bedrooms, setBedrooms] = useState("all");
   const [minPrice, setMinPrice] = useState("");
   const [maxPrice, setMaxPrice] = useState("");
-
   const [minSlider, setMinSlider] = useState(0);
   const [maxSlider, setMaxSlider] = useState(MAX_PRICE);
   const [priceTouched, setPriceTouched] = useState(false);
-
   const [selectedAdvantages, setSelectedAdvantages] = useState<string[]>([]);
 
   // Hydrate state from URL
@@ -67,14 +57,12 @@ export default function PropertySearch() {
     const qLocation = sp.get("location") ?? "";
     const qAdv = parseCSV(sp.get("adv"));
     const qBeds = sp.get("beds") ?? "all";
-
     const qMin = sp.get("min") ?? "";
     const qMax = sp.get("max") ?? "";
 
     setLocation(qLocation);
     setSelectedAdvantages(qAdv);
     setBedrooms(qBeds);
-
     setMinPrice(qMin);
     setMaxPrice(qMax);
 
@@ -85,18 +73,12 @@ export default function PropertySearch() {
 
     setMinSlider(Math.min(safeMin, safeMax));
     setMaxSlider(Math.max(safeMin, safeMax));
-
     setPriceTouched((qMin !== "" && Number(qMin) > 0) || (qMax !== "" && Number(qMax) > 0));
-
-    const shouldOpenAdvanced =
-      qBeds !== "all" || qMin !== "" || qMax !== "" || qAdv.length > 0;
-    setAdvancedOpen(shouldOpenAdvanced);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sp]);
 
   const resetAll = () => {
     setLocation("");
-    setAdvancedOpen(false);
     setBedrooms("all");
     setMinPrice("");
     setMaxPrice("");
@@ -104,7 +86,6 @@ export default function PropertySearch() {
     setMaxSlider(MAX_PRICE);
     setPriceTouched(false);
     setSelectedAdvantages([]);
-
     router.push("/buy");
   };
 
@@ -115,7 +96,6 @@ export default function PropertySearch() {
     const next = clamp(value, 0, maxSlider);
     setMinSlider(next);
     setMinPrice(String(next));
-    if (!advancedOpen) setAdvancedOpen(true);
   };
 
   const onMaxSliderChange = (value: number) => {
@@ -123,29 +103,21 @@ export default function PropertySearch() {
     const next = clamp(value, minSlider, MAX_PRICE);
     setMaxSlider(next);
     setMaxPrice(String(next));
-    if (!advancedOpen) setAdvancedOpen(true);
   };
 
   const onSearch = () => {
     const params = new URLSearchParams();
-
     const loc = location.trim();
     if (loc) params.set("location", loc);
-
     if (selectedAdvantages.length > 0) params.set("adv", selectedAdvantages.join(","));
-
     if (bedrooms !== "all") params.set("beds", bedrooms);
-
     const minClean = minPrice.trim();
     const maxClean = maxPrice.trim();
-
     if (priceTouched) {
       if (minClean && Number(minClean) > 0) params.set("min", String(Number(minClean)));
       if (maxClean && Number(maxClean) > 0) params.set("max", String(Number(maxClean)));
     }
-
     params.set("page", "1");
-
     router.push(`/buy?${params.toString()}`);
   };
 
@@ -153,10 +125,11 @@ export default function PropertySearch() {
     <section className="searchwrap">
       <div className="searchbox">
         <div className="searchgrid searchgrid--simple">
-          {/* Location */}
           <div className="field">
             <div className="label">{tr.locationLabel}</div>
             <input
+              id="location"
+              name="location"
               className="control"
               value={location}
               onChange={(e) => setLocation(e.target.value)}
@@ -165,7 +138,6 @@ export default function PropertySearch() {
             />
           </div>
 
-          {/* Search button */}
           <div className="field field-searchbtn">
             <div className="label label-hidden">{tr.search}</div>
             <button type="button" className="searchbtn" onClick={onSearch}>
@@ -177,30 +149,6 @@ export default function PropertySearch() {
           </div>
         </div>
 
-        {/* Advanced toggle */}
-        <div className="advrow">
-          <button
-            type="button"
-            className="advtoggle"
-            onClick={() => setAdvancedOpen((p) => !p)}
-            aria-expanded={advancedOpen}
-          >
-            {tr.advancedSearch}
-            <svg
-              className={`advchev ${advancedOpen ? "open" : ""}`}
-              width="14"
-              height="14"
-              viewBox="0 0 14 14"
-              fill="none"
-              aria-hidden="true"
-            >
-              <path d="M2 4.5l5 5 5-5" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </button>
-        </div>
-
-        {/* Advanced panel */}
-        {advancedOpen && (
         <div className="advanced">
           <div className="advanced-grid">
             {/* Price range */}
@@ -255,7 +203,6 @@ export default function PropertySearch() {
                     onChange={(e) => {
                       setPriceTouched(true);
                       setMinPrice(e.target.value);
-                      if (!advancedOpen) setAdvancedOpen(true);
                       const n = Number(e.target.value);
                       if (Number.isFinite(n)) setMinSlider(clamp(n, 0, maxSlider));
                     }}
@@ -331,7 +278,6 @@ export default function PropertySearch() {
             {tr.resetAll}
           </button>
         </div>
-        )}
       </div>
     </section>
   );

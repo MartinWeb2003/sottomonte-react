@@ -3,6 +3,7 @@ import { Montserrat, Lato } from "next/font/google";
 import "./globals.css";
 import Navbar from "../components/Navbar";
 import ScrollProgressBar from "../components/ScrollProgressBar";
+import LoadingScreen from "../components/LoadingScreen";
 import { LanguageProvider } from "../context/LanguageContext";
 
 
@@ -36,6 +37,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${heading.variable} ${body.variable}`}>
         <LanguageProvider>
+          <LoadingScreen />
           <ScrollProgressBar />
           <Navbar />
           {children}
