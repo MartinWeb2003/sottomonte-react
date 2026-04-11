@@ -93,7 +93,14 @@ export default async function BuyPage({
     <main className="buy">
       <BuyHero />
 
-      <PropertySearch />
+      <PropertySearch
+        key={`${sp.location ?? ""}-${sp.beds ?? ""}-${sp.adv ?? ""}-${sp.min ?? ""}-${sp.max ?? ""}`}
+        location={sp.location}
+        beds={sp.beds}
+        adv={sp.adv}
+        min={sp.min}
+        max={sp.max}
+      />
 
       <section className="buy-grid-section">
         <div className="buy-grid-inner">
