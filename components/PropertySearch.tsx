@@ -201,136 +201,136 @@ export default function PropertySearch() {
 
         {/* Advanced panel */}
         {advancedOpen && (
-          <div className="advanced">
-            <div className="advanced-grid">
-              {/* Price range */}
-              <div className="adv-block">
-                <div className="label">{tr.priceRange}</div>
-
-                <div className="sliderrow">
-                  <div
-                    className="range"
-                    style={{
-                      // @ts-expect-error -- CSS custom properties
-                      "--min": `${(minSlider / MAX_PRICE) * 100}%`,
-                      "--max": `${(maxSlider / MAX_PRICE) * 100}%`,
-                    }}
-                  >
-                    <div className="range-track" aria-hidden="true" />
-
-                    <input
-                      type="range"
-                      min={0}
-                      max={MAX_PRICE}
-                      step={PRICE_STEP}
-                      value={minSlider}
-                      onChange={(e) => onMinSliderChange(Number(e.target.value))}
-                      className="range-input"
-                      aria-label="Minimum price"
-                    />
-                    <input
-                      type="range"
-                      min={0}
-                      max={MAX_PRICE}
-                      step={PRICE_STEP}
-                      value={maxSlider}
-                      onChange={(e) => onMaxSliderChange(Number(e.target.value))}
-                      className="range-input"
-                      aria-label="Maximum price"
-                    />
-                  </div>
-
-                  <div className="slider-value">
-                    {formatEUR(minSlider)} / {formatEUR(maxSlider)}
-                  </div>
-                </div>
-
-                <div className="pricerow">
-                  <div className="moneyinput">
-                    <span className="euro">€</span>
-                    <input
-                      value={minPrice}
-                      onChange={(e) => {
-                        setPriceTouched(true);
-                        setMinPrice(e.target.value);
-                        if (!advancedOpen) setAdvancedOpen(true);
-
-                        const n = Number(e.target.value);
-                        if (Number.isFinite(n)) {
-                          const next = clamp(n, 0, maxSlider);
-                          setMinSlider(next);
-                        }
-                      }}
-                      placeholder="Enter min"
-                      inputMode="numeric"
-                    />
-                  </div>
-                  <div className="moneyinput">
-                    <span className="euro">€</span>
-                    <input
-                      value={maxPrice}
-                      onChange={(e) => {
-                        setPriceTouched(true);
-                        setMaxPrice(e.target.value);
-
-                        const n = Number(e.target.value);
-                        if (Number.isFinite(n)) {
-                          const next = clamp(n, minSlider, MAX_PRICE);
-                          setMaxSlider(next);
-                        }
-                      }}
-                      placeholder="Enter max"
-                      inputMode="numeric"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Bedrooms */}
-              <div className="adv-block">
-                <div className="label">{tr.bedroomsLabel}</div>
-                <select
-                  className="control"
-                  value={bedrooms}
-                  onChange={(e) => setBedrooms(e.target.value)}
+        <div className="advanced">
+          <div className="advanced-grid">
+            {/* Price range */}
+            <div className="adv-block">
+              <div className="label">{tr.priceRange}</div>
+              <div className="sliderrow">
+                <div
+                  className="range"
+                  style={{
+                    // @ts-expect-error -- CSS custom properties
+                    "--min": `${(minSlider / MAX_PRICE) * 100}%`,
+                    "--max": `${(maxSlider / MAX_PRICE) * 100}%`,
+                  }}
                 >
-                  <option value="all">{tr.all}</option>
-                  <option value="1">1+</option>
-                  <option value="2">2+</option>
-                  <option value="3">3+</option>
-                  <option value="4">4+</option>
-                  <option value="5">5+</option>
-                </select>
+                  <div className="range-track" aria-hidden="true" />
+                  <input
+                    id="price-min-slider"
+                    name="price-min-slider"
+                    type="range"
+                    min={0}
+                    max={MAX_PRICE}
+                    step={PRICE_STEP}
+                    value={minSlider}
+                    onChange={(e) => onMinSliderChange(Number(e.target.value))}
+                    className="range-input"
+                    aria-label="Minimum price"
+                  />
+                  <input
+                    id="price-max-slider"
+                    name="price-max-slider"
+                    type="range"
+                    min={0}
+                    max={MAX_PRICE}
+                    step={PRICE_STEP}
+                    value={maxSlider}
+                    onChange={(e) => onMaxSliderChange(Number(e.target.value))}
+                    className="range-input"
+                    aria-label="Maximum price"
+                  />
+                </div>
+                <div className="slider-value">
+                  {formatEUR(minSlider)} / {formatEUR(maxSlider)}
+                </div>
               </div>
-
-              {/* Advantages */}
-              <div className="adv-block">
-                <div className="label">{tr.advantages}</div>
-                <div className="adv-checks">
-                  {advantages.map((opt) => (
-                    <label key={opt.value} className="checkrow">
-                      <input
-                        type="checkbox"
-                        checked={selectedAdvantages.includes(opt.value)}
-                        onChange={() =>
-                          setSelectedAdvantages((prev) =>
-                            prev.includes(opt.value)
-                              ? prev.filter((v) => v !== opt.value)
-                              : [...prev, opt.value]
-                          )
-                        }
-                      />
-                      <span>{opt.label}</span>
-                    </label>
-                  ))}
+              <div className="pricerow">
+                <div className="moneyinput">
+                  <span className="euro">€</span>
+                  <input
+                    id="price-min"
+                    name="price-min"
+                    value={minPrice}
+                    onChange={(e) => {
+                      setPriceTouched(true);
+                      setMinPrice(e.target.value);
+                      if (!advancedOpen) setAdvancedOpen(true);
+                      const n = Number(e.target.value);
+                      if (Number.isFinite(n)) setMinSlider(clamp(n, 0, maxSlider));
+                    }}
+                    placeholder="Enter min"
+                    inputMode="numeric"
+                  />
+                </div>
+                <div className="moneyinput">
+                  <span className="euro">€</span>
+                  <input
+                    id="price-max"
+                    name="price-max"
+                    value={maxPrice}
+                    onChange={(e) => {
+                      setPriceTouched(true);
+                      setMaxPrice(e.target.value);
+                      const n = Number(e.target.value);
+                      if (Number.isFinite(n)) setMaxSlider(clamp(n, minSlider, MAX_PRICE));
+                    }}
+                    placeholder="Enter max"
+                    inputMode="numeric"
+                  />
                 </div>
               </div>
             </div>
 
-            <button type="button" className="reset" onClick={resetAll}>
-              {tr.resetAll}
-            </button>
+            {/* Bedrooms */}
+            <div className="adv-block">
+              <div className="label">{tr.bedroomsLabel}</div>
+              <select
+                id="bedrooms"
+                name="bedrooms"
+                className="control"
+                value={bedrooms}
+                onChange={(e) => setBedrooms(e.target.value)}
+              >
+                <option value="all">{tr.all}</option>
+                <option value="1">1+</option>
+                <option value="2">2+</option>
+                <option value="3">3+</option>
+                <option value="4">4+</option>
+                <option value="5">5+</option>
+              </select>
+            </div>
+
+            {/* Advantages */}
+            <div className="adv-block">
+              <div className="label">{tr.advantages}</div>
+              <div className="adv-checks">
+                {advantages.map((opt) => (
+                  <label key={opt.value} className="checkrow">
+                    <input
+                      id={`adv-${opt.value}`}
+                      name={`adv-${opt.value}`}
+                      type="checkbox"
+                      checked={selectedAdvantages.includes(opt.value)}
+                      onChange={() =>
+                        setSelectedAdvantages((prev) =>
+                          prev.includes(opt.value)
+                            ? prev.filter((v) => v !== opt.value)
+                            : [...prev, opt.value]
+                        )
+                      }
+                    />
+                    <span>{opt.label}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
           </div>
+
+          <button type="button" className="reset" onClick={resetAll}>
+            {tr.resetAll}
+          </button>
+        </div>
         )}
       </div>
     </section>
