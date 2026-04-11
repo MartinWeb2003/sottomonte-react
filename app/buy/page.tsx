@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic";
+
 import PropertySearch from "../../components/PropertySearch";
 import PropertyCard from "../../components/PropertyCard";
 import Pagination from "../../components/Pagination";
