@@ -96,7 +96,6 @@ export default async function BuyPage({
       <BuyHero />
 
       <PropertySearch
-        key={`${sp.location ?? ""}-${sp.beds ?? ""}-${sp.adv ?? ""}-${sp.min ?? ""}-${sp.max ?? ""}`}
         location={sp.location}
         beds={sp.beds}
         adv={sp.adv}
